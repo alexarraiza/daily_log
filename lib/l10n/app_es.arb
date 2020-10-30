@@ -1,0 +1,17 @@
+{
+    "@@locale": "es",
+
+    "home_screen_title": "¿Que tal el día?",
+    "@home_screen_title": {},
+
+    "settings_screen_title": "Ajustes",
+    "@settings_screen_title": {},
+    "settings_screen_app_settings_section": "Configuración",
+    "@settings_screen_app_settings_section": {},
+    "settings_screen_manage_tags": "Gestionar etiquetas",
+    "@settings_screen_manage_tags": {},
+    "settings_screen_about_section": "Acerca de",
+    "@settings_screen_about_section": {},
+    "settings_screen_about_this_app": "Información sobre esta aplicación",
+    "@settings_screen_about_this_app": {}
+}
