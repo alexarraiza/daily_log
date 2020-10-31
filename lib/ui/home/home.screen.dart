@@ -1,9 +1,12 @@
 import 'dart:io';
 
-import 'package:daily_log/ui/home/widgets/log_entry.dart';
+import 'package:badges/badges.dart';
+import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
+import 'package:daily_log/ui/home/widgets/log_entry_list.dart';
 import 'package:daily_log/ui/settings/settings.screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -23,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _calendarController = CalendarController();
+    BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
   }
 
   @override
@@ -43,26 +47,32 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Material(
-            elevation: 2,
-            child: Calendar(
-              Platform.localeName,
-              _calendarController,
-            ),
-          ),
-          Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) => LogEntry(
-                text: 'test',
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    return BlocBuilder<LogEntriesCubit, LogEntriesState>(
+      builder: (context, state) {
+        if (state is LogEntriesFetched) {
+          return Column(
+            children: [
+              Material(
+                elevation: 2,
+                child: Calendar(
+                  Platform.localeName,
+                  _calendarController,
+                ),
               ),
-              separatorBuilder: (context, index) => Divider(),
-              itemCount: 10,
-            ),
-          ),
-        ],
-      ),
+              Expanded(
+                child: LogEntryList(state.logEntries),
+              ),
+            ],
+          );
+        } else {
+          return Center(child: Text('Nothing to see here, move along...'));
+        }
+      },
     );
   }
 }

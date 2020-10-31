@@ -4,6 +4,12 @@
     "home_screen_title": "¿Que tal el día?",
     "@home_screen_title": {},
 
+    "log_entry_list_new": "Pulsa aquí para añadir una entrada",
+    "@log_entry_list_new": {},
+
+    "log_entry_add_tag": "Añadir etiqueta",
+    "@log_entry_add_tag": {},
+
     "settings_screen_title": "Ajustes",
     "@settings_screen_title": {},
     "settings_screen_app_settings_section": "Configuración",
@@ -12,6 +18,6 @@
     "@settings_screen_manage_tags": {},
     "settings_screen_about_section": "Acerca de",
     "@settings_screen_about_section": {},
-    "settings_screen_about_this_app": "Información sobre esta aplicación",
+    "settings_screen_about_this_app": "Información de DailyLog",
     "@settings_screen_about_this_app": {}
 }

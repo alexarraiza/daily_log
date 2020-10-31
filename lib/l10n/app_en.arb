@@ -4,6 +4,12 @@
     "home_screen_title": "How are you today?",
     "@home_screen_title": {},
 
+    "log_entry_list_new": "Tap here to add a new entry",
+    "@log_entry_list_new": {},
+
+    "log_entry_add_tag": "Add tag",
+    "@log_entry_add_tag": {},
+
     "settings_screen_title": "Settings",
     "@settings_screen_title": {},
     "settings_screen_app_settings_section": "App Settings",
@@ -12,6 +18,6 @@
     "@settings_screen_manage_tags": {},
     "settings_screen_about_section": "About",
     "@settings_screen_about_section": {},
-    "settings_screen_about_this_app": "About this app",
+    "settings_screen_about_this_app": "About DailyLog",
     "@settings_screen_about_this_app": {}
 }
