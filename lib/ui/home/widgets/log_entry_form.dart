@@ -3,7 +3,6 @@ import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
 import 'package:daily_log/ui/common/log_tag.dart';
-import 'package:daily_log/ui/tag_manager/widgets/log_tag_item.dart';
 import 'package:daily_log/ui/tag_manager/widgets/log_tag_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

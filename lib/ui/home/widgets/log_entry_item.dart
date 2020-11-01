@@ -1,9 +1,7 @@
-import 'package:badges/badges.dart';
 import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/ui/common/log_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogEntryItem extends StatelessWidget {
   final LogEntryModel logEntry;
