@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:daily_log/ui/common/log_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:daily_log/data/models/log_tag.model.dart';
 
@@ -15,16 +15,7 @@ class LogTagItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Badge(
-        badgeContent: Text(
-          tag.tag,
-          style: TextStyle(color: tag.color.computeLuminance() > 0.5 ? Colors.black : Colors.white),
-        ),
-        badgeColor: tag.color,
-        shape: BadgeShape.square,
-        borderRadius: BorderRadius.circular(4),
-        animationType: BadgeAnimationType.fade,
-      ),
+      leading: LogTag(tag: tag),
       onTap: () => onTap(tag),
     );
   }

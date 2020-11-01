@@ -10,8 +10,8 @@ class LogEntryModel extends Equatable {
   final int id;
   @JsonKey()
   final String entry;
-  @JsonKey(toJson: tagsToJson)
-  final List<LogTagModel> tags;
+  @JsonKey(toJson: tagToJson)
+  final LogTagModel tag;
   @JsonKey()
   final DateTime assignedDateTime;
   @JsonKey()
@@ -25,7 +25,7 @@ class LogEntryModel extends Equatable {
     this.editDateTime,
     this.assignedDateTime, {
     this.id,
-    this.tags = const [],
+    this.tag,
   });
 
   factory LogEntryModel.fromJson(Map<String, dynamic> json) => _$LogEntryModelFromJson(json);
@@ -37,23 +37,23 @@ class LogEntryModel extends Equatable {
     createDateTime,
     editDateTime,
     id,
-    tags,
+    tag,
   }) {
     return LogEntryModel(
       entry ?? this.entry,
       createDateTime ?? this.createDateTime,
       editDateTime ?? this.editDateTime,
       assignedDateTime ?? this.assignedDateTime,
-      tags: tags ?? this.tags,
+      tag: tag ?? this.tag,
       id: id ?? this.id,
     );
   }
 
-  static List<dynamic> tagsToJson(List<LogTagModel> tags) => tags?.map((tag) => tag.toJson())?.toList();
+  static Map<String, dynamic> tagToJson(LogTagModel tags) => tags?.toJson();
 
   @override
   List<Object> get props =>
-      [this.id, this.entry, this.tags, this.createDateTime, this.editDateTime, this.assignedDateTime];
+      [this.id, this.entry, this.tag, this.createDateTime, this.editDateTime, this.assignedDateTime];
 
   @override
   String toString() => 'LogEntry { id: $id }';

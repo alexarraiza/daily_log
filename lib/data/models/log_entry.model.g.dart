@@ -19,10 +19,9 @@ LogEntryModel _$LogEntryModelFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['assignedDateTime'] as String),
     id: json['id'] as int,
-    tags: (json['tags'] as List)
-        ?.map((e) =>
-            e == null ? null : LogTagModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tag: json['tag'] == null
+        ? null
+        : LogTagModel.fromJson(json['tag'] as Map<String, dynamic>),
   );
 }
 
@@ -30,7 +29,7 @@ Map<String, dynamic> _$LogEntryModelToJson(LogEntryModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'entry': instance.entry,
-      'tags': LogEntryModel.tagsToJson(instance.tags),
+      'tag': LogEntryModel.tagToJson(instance.tag),
       'assignedDateTime': instance.assignedDateTime?.toIso8601String(),
       'createDateTime': instance.createDateTime?.toIso8601String(),
       'editDateTime': instance.editDateTime?.toIso8601String(),

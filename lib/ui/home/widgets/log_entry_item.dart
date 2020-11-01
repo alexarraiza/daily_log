@@ -1,4 +1,6 @@
+import 'package:badges/badges.dart';
 import 'package:daily_log/data/models/log_entry.model.dart';
+import 'package:daily_log/ui/common/log_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,27 +23,8 @@ class LogEntryItem extends StatelessWidget {
         padding: const EdgeInsets.only(top: 8, bottom: 8),
         child: Text(logEntry.entry),
       ),
-      subtitle: (logEntry.tags != null && logEntry.tags.length > 0)
-          ? SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  // TODO: ADD OTHER TAGS
-                ],
-              ),
-            )
-          : null,
+      trailing: (logEntry.tag != null) ? LogTag(tag: logEntry.tag) : null,
       onTap: () => onTap(logEntry),
-    );
-  }
-
-  ActionChip _buildAddTagChip(BuildContext context) {
-    return ActionChip(
-      visualDensity: VisualDensity.compact,
-      label: Text(AppLocalizations.of(context).log_entry_add_tag),
-      onPressed: () {},
     );
   }
 }

@@ -3,8 +3,8 @@ import 'package:daily_log/data/models/log_tag.model.dart';
 
 import 'log_tag_item.dart';
 
-class TagManagerList extends StatelessWidget {
-  const TagManagerList({
+class LogTagList extends StatelessWidget {
+  const LogTagList({
     Key key,
     @required this.tags,
     @required this.onTapItem,
@@ -17,6 +17,7 @@ class TagManagerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      shrinkWrap: true,
       itemBuilder: (context, index) {
         return LogTagItem(
           tag: tags[index],

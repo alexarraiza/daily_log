@@ -10,15 +10,14 @@
     "home_screen_new_entry": "Nueva entrada",
     "@home_screen_new_entry": {},
 
-    "log_entry_add_tag": "Añadir etiqueta",
-    "@log_entry_add_tag": {},
-
     "log_entry_form_entry_label": "Entrada",
     "@log_entry_form_entry_label": {},
     "log_entry_form_back_button": "VOLVER",
     "@log_entry_form_back_button": {},
     "log_entry_form_save_button": "GUARDAR",
     "@log_entry_form_save_button": {},
+    "log_entry_form_add_tag": "Añadir etiqueta",
+    "@log_entry_form_add_tag": {},
 
     "settings_screen_title": "Ajustes",
     "@settings_screen_title": {},
