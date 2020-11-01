@@ -1,14 +1,14 @@
-import 'package:daily_log/data/models/log_entry.model.dart';
+import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LogEntry extends StatelessWidget {
-  final LogEntryModel logEntry;
-  final Function(LogEntryModel entry) onTap;
+class LogEntryEditable extends StatelessWidget {
+  final String text;
+  final List<LogTagModel> tags;
 
-  const LogEntry(this.logEntry, {Key key, this.onTap})
-      : assert(logEntry != null),
+  const LogEntryEditable({Key key, this.text, this.tags = const []})
+      : assert(text != null),
         super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -19,21 +19,21 @@ class LogEntry extends StatelessWidget {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8),
-        child: Text(logEntry.entry),
+        child: Text(text),
       ),
-      subtitle: (logEntry.tags != null && logEntry.tags.length > 0)
+      subtitle: (tags != null && tags.length > 0)
           ? SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  _buildAddTagChip(context),
                   // TODO: ADD OTHER TAGS
                 ],
               ),
             )
           : null,
-      onTap: () => onTap(logEntry),
     );
   }
 

@@ -2,6 +2,8 @@ import 'package:daily_log/data/data_providers/sembast.provider.dart';
 import 'package:daily_log/data/repositories/log_entry.repository.dart';
 import 'package:daily_log/data/repositories/log_tag.repository.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
+import 'package:daily_log/logic/log_entries_by_date/log_entries_by_date_cubit.dart';
+import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
 import 'package:daily_log/ui/home/home.screen.dart';
 import 'package:daily_log/ui/settings/settings.screen.dart';
@@ -40,7 +42,13 @@ class DailyLogApp extends StatelessWidget {
               create: (context) => LogEntriesCubit(RepositoryProvider.of<LogEntryRepository>(context)),
             ),
             BlocProvider(
+              create: (context) => LogEntriesByDateCubit(BlocProvider.of<LogEntriesCubit>(context)),
+            ),
+            BlocProvider(
               create: (context) => LogTagsCubit(RepositoryProvider.of<LogTagRepository>(context)),
+            ),
+            BlocProvider(
+              create: (context) => LogEntryCubit(RepositoryProvider.of<LogEntryRepository>(context)),
             ),
           ],
           child: app,

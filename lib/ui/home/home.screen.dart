@@ -1,8 +1,12 @@
 import 'dart:io';
+import 'dart:ui';
 
-import 'package:badges/badges.dart';
+import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
+import 'package:daily_log/logic/log_entries_by_date/log_entries_by_date_cubit.dart';
+import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/ui/home/widgets/log_entry_list.dart';
+import 'package:daily_log/ui/home/widgets/log_entry_form.dart';
 import 'package:daily_log/ui/settings/settings.screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,31 +52,73 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: _buildBody(),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text(AppLocalizations.of(context).home_screen_new_entry),
+        icon: Icon(Icons.add),
+        onPressed: () => _addOrEditEntry(null),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Widget _buildBody() {
     return BlocBuilder<LogEntriesCubit, LogEntriesState>(
-      builder: (context, state) {
-        if (state is LogEntriesFetched) {
-          return Column(
-            children: [
-              Material(
-                elevation: 2,
-                child: Calendar(
-                  Platform.localeName,
-                  _calendarController,
-                ),
-              ),
-              Expanded(
-                child: LogEntryList(state.logEntries),
-              ),
-            ],
-          );
-        } else {
-          return Center(child: Text('Nothing to see here, move along...'));
-        }
+      builder: (context, entriesState) {
+        return BlocBuilder<LogEntriesByDateCubit, LogEntriesByDateState>(
+          builder: (context, filteredEntriesState) {
+            if (entriesState is LogEntriesFetched && filteredEntriesState is LogEntriesByDateLoaded) {
+              return Column(
+                children: [
+                  Material(
+                    elevation: 2,
+                    child: Calendar(
+                      Platform.localeName,
+                      _calendarController,
+                      onDaySelected: (day, events, holidays) =>
+                          BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(day),
+                      initialDateSelected: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+                      logEntries: entriesState.logEntries,
+                    ),
+                  ),
+                  Expanded(
+                    child: LogEntryList(
+                      filteredEntriesState.entries,
+                      onTapItem: _addOrEditEntry,
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return Center(child: Text('Nothing to see here, move along...'));
+            }
+          },
+        );
       },
     );
+  }
+
+  void _addOrEditEntry(LogEntryModel entry) {
+    showDialog(
+      context: context,
+      builder: (context) => Stack(
+        children: [
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+          LogEntryForm(
+            BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+            logEntry: entry,
+          ),
+        ],
+      ),
+    ).then((_) {
+      BlocProvider.of<LogEntryCubit>(context).resetState();
+      BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
+    });
   }
 }
