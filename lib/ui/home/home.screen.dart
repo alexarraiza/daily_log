@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               );
             } else {
-              return Center(child: Text('Nothing to see here, move along...'));
+              return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));
             }
           },
         );

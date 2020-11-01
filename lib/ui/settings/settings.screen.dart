@@ -1,3 +1,4 @@
+import 'package:daily_log/ui/tag_manager/tag_manager.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -35,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
           leading: Icon(Icons.local_offer_outlined),
           title: Text(AppLocalizations.of(context).settings_screen_manage_tags),
           trailing: Icon(Icons.chevron_right),
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(context, TagManagerScreen.routeName),
         ),
         Divider(),
       ],

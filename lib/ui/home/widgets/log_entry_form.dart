@@ -42,7 +42,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
         child: BlocListener<LogEntryCubit, LogEntryState>(
           listener: (context, state) {
             if (state is LogEntrySaved) {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             } else if (state is LogEntrySaveError) {
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('error'),
@@ -50,17 +50,20 @@ class _LogEntryFormState extends State<LogEntryForm> {
               ));
             }
           },
-          child: Card(
-              child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildForm(),
-                _buildButtonBar(context),
-              ],
-            ),
-          )),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+                child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildForm(),
+                  _buildButtonBar(),
+                ],
+              ),
+            )),
+          ),
         ),
       ),
     );
@@ -89,12 +92,12 @@ class _LogEntryFormState extends State<LogEntryForm> {
     );
   }
 
-  ButtonBar _buildButtonBar(BuildContext context) {
+  ButtonBar _buildButtonBar() {
     return ButtonBar(
       mainAxisSize: MainAxisSize.max,
       children: [
         MaterialButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pop(context),
           child: Text(
             AppLocalizations.of(context).log_entry_form_back_button,
             style: TextStyle(color: Colors.red),

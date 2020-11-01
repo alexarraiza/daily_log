@@ -8,7 +8,6 @@ part of 'log_tag.model.dart';
 
 LogTagModel _$LogTagModelFromJson(Map<String, dynamic> json) {
   return LogTagModel(
-    json['id'] as int,
     json['tag'] as String,
     LogTagModel.colorFromJson(json['color'] as int),
     json['createDateTime'] == null
@@ -17,6 +16,7 @@ LogTagModel _$LogTagModelFromJson(Map<String, dynamic> json) {
     json['editDateTime'] == null
         ? null
         : DateTime.parse(json['editDateTime'] as String),
+    id: json['id'] as int,
   );
 }
 

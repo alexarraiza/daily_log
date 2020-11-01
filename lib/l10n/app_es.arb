@@ -1,6 +1,9 @@
 {
     "@@locale": "es",
 
+    "placeholder_unexpected_state": "Nada que ver, circulen por favor...",
+    "@placeholder_unexpected_state": {},
+
     "home_screen_title": "¿Que tal el día?",
     "@home_screen_title": {},
 
@@ -26,5 +29,22 @@
     "settings_screen_about_section": "Acerca de",
     "@settings_screen_about_section": {},
     "settings_screen_about_this_app": "Información de DailyLog",
-    "@settings_screen_about_this_app": {}
+    "@settings_screen_about_this_app": {},
+
+
+    "tag_manager_screen_title": "Gestor de etiquetas",
+    "@tag_manager_screen_title": {},
+    "tag_manager_screen_add_tag": "Nueva etiqueta",
+    "@tag_manager_screen_add_tag": {},
+
+    "log_tag_form_input_label": "Etiqueta",
+    "@log_tag_form_input_label": {},
+    "log_tag_form_back_button": "VOLVER",
+    "@log_tag_form_back_button": {},
+    "log_tag_form_save_button": "GUARDAR",
+    "@log_tag_form_save_button": {},
+    "log_tag_form_color_picker_title": "Escoge un color",
+    "@log_tag_form_color_picker_title": {},
+    "log_tag_form_color_picker_button": "Hecho",
+    "@log_tag_form_color_picker_button": {}
 }

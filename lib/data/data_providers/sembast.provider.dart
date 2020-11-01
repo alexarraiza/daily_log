@@ -49,6 +49,11 @@ class SembastDataProvider implements LogEntryBaseDataProvider, LogTagBaseDataPro
   }
 
   @override
+  Future<void> deleteLogEntry(int id) async {
+    await logEntryStoreRef.record(id).delete(await this._getDatabase());
+  }
+
+  @override
   Future<List<dynamic>> fetchLogTags() async {
     return (await logTagStoreRef.find(await this._getDatabase()));
   }

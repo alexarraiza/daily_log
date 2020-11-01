@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LogEntry extends StatelessWidget {
+class LogEntryItem extends StatelessWidget {
   final LogEntryModel logEntry;
   final Function(LogEntryModel entry) onTap;
 
-  const LogEntry(this.logEntry, {Key key, this.onTap})
+  const LogEntryItem(this.logEntry, {Key key, this.onTap})
       : assert(logEntry != null),
         super(key: key);
   @override

@@ -7,7 +7,6 @@ part 'log_tag.model.g.dart';
 
 @JsonSerializable()
 class LogTagModel extends Equatable {
-  @JsonKey()
   final int id;
   @JsonKey()
   final String tag;
@@ -18,9 +17,25 @@ class LogTagModel extends Equatable {
   @JsonKey()
   final DateTime editDateTime;
 
-  LogTagModel(this.id, this.tag, this.color, this.createDateTime, this.editDateTime);
+  LogTagModel(this.tag, this.color, this.createDateTime, this.editDateTime, {this.id});
 
   factory LogTagModel.fromJson(Map<String, dynamic> json) => _$LogTagModelFromJson(json);
+
+  LogTagModel copyWith({
+    id,
+    tag,
+    color,
+    createDateTime,
+    editDateTime,
+  }) {
+    return LogTagModel(
+      tag ?? this.tag,
+      color ?? this.color,
+      createDateTime ?? this.createDateTime,
+      editDateTime ?? this.editDateTime,
+      id: id ?? this.id,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$LogTagModelToJson(this);
 
@@ -29,7 +44,7 @@ class LogTagModel extends Equatable {
   static Color colorFromJson(int colorValue) => colorValue != null ? Color(colorValue) : null;
 
   @override
-  List<Object> get props => [this.id, this.tag, this.createDateTime, this.editDateTime];
+  List<Object> get props => [this.id, this.tag, this.createDateTime, this.editDateTime, this.color];
 
   @override
   String toString() => 'LogTag { id: $id }';
