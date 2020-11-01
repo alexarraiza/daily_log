@@ -8,11 +8,13 @@ class LogTagList extends StatelessWidget {
     Key key,
     @required this.tags,
     @required this.onTapItem,
+    this.bottomPadding = true,
   })  : assert(tags != null),
         super(key: key);
 
   final List<LogTagModel> tags;
   final Function(LogTagModel tag) onTapItem;
+  final bool bottomPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class LogTagList extends StatelessWidget {
       },
       separatorBuilder: (context, index) => Divider(),
       itemCount: tags.length,
+      padding: bottomPadding ? EdgeInsets.only(bottom: 60) : null,
     );
   }
 }

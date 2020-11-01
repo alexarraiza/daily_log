@@ -145,6 +145,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
                       currentEntry = currentEntry.copyWith(tag: tag);
                       Navigator.pop(context);
                     }),
+                    bottomPadding: false,
                   ),
                 ),
               ),
