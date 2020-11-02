@@ -9,24 +9,28 @@ class LogTagList extends StatelessWidget {
     @required this.tags,
     @required this.onTapItem,
     this.bottomPadding = true,
+    this.shrinkWrap = true,
   })  : assert(tags != null),
         super(key: key);
 
   final List<LogTagModel> tags;
   final Function(LogTagModel tag) onTapItem;
   final bool bottomPadding;
+  final bool shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      shrinkWrap: true,
+      shrinkWrap: shrinkWrap,
       itemBuilder: (context, index) {
         return LogTagItem(
           tag: tags[index],
           onTap: onTapItem,
         );
       },
-      separatorBuilder: (context, index) => Divider(),
+      separatorBuilder: (context, index) => Divider(
+        height: 0,
+      ),
       itemCount: tags.length,
       padding: bottomPadding ? EdgeInsets.only(bottom: 60) : null,
     );

@@ -35,6 +35,7 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
             return LogTagList(
               tags: state.tags,
               onTapItem: _addOrEditTag,
+              shrinkWrap: false,
             );
           } else {
             return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));

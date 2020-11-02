@@ -16,7 +16,7 @@ class LogTag extends StatelessWidget {
       badgeColor: tag.color,
       shape: BadgeShape.square,
       borderRadius: BorderRadius.circular(4),
-      animationType: BadgeAnimationType.fade,
+      toAnimate: false,
     );
   }
 }

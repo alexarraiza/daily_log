@@ -67,26 +67,29 @@ class _HomeScreenState extends State<HomeScreen> {
         return BlocBuilder<LogEntriesByDateCubit, LogEntriesByDateState>(
           builder: (context, filteredEntriesState) {
             if (entriesState is LogEntriesFetched && filteredEntriesState is LogEntriesByDateLoaded) {
-              return Column(
-                children: [
-                  Material(
-                    elevation: 2,
-                    child: Calendar(
-                      Platform.localeName,
-                      _calendarController,
-                      onDaySelected: (day, events, holidays) =>
-                          BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(day),
-                      initialDateSelected: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
-                      logEntries: entriesState.logEntries,
+              return Material(
+                child: Column(
+                  children: [
+                    Material(
+                      elevation: 2,
+                      child: Calendar(
+                        Platform.localeName,
+                        _calendarController,
+                        onDaySelected: (day, events, holidays) =>
+                            BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(day),
+                        initialDateSelected: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+                        logEntries: entriesState.logEntries,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: LogEntryList(
-                      filteredEntriesState.entries,
-                      onTapItem: _addOrEditEntry,
+                    Expanded(
+                      child: LogEntryList(
+                        filteredEntriesState.entries,
+                        onTapItem: _addOrEditEntry,
+                        shrinkWrap: false,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             } else {
               return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));
