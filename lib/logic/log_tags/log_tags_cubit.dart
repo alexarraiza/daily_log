@@ -11,4 +11,9 @@ class LogTagsCubit extends Cubit<LogTagsState> {
   LogTagsCubit(this._logTagRepository) : super(LogTagsInitial());
 
   void fetchTags() async => emit(LogTagsFetched(await this._logTagRepository.fetchLogTags()));
+
+  void deleteTag(LogTagModel tag) async {
+    await this._logTagRepository.deleteLogTag(tag);
+    fetchTags();
+  }
 }

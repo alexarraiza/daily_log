@@ -20,4 +20,9 @@ class LogEntryRepository {
       return logEntry;
     }
   }
+
+  Future<LogEntryModel> deleteLogEntry(LogEntryModel logEntry) async {
+    await this._logEntryDataProvider.deleteLogEntry(logEntry.id);
+    return logEntry;
+  }
 }

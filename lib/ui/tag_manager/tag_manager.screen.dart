@@ -35,6 +35,7 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
             return LogTagList(
               tags: state.tags,
               onTapItem: _addOrEditTag,
+              onDeleteItem: (tag) => BlocProvider.of<LogTagsCubit>(context).deleteTag(tag),
               shrinkWrap: false,
             );
           } else {

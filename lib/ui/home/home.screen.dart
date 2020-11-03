@@ -85,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: LogEntryList(
                         filteredEntriesState.entries,
                         onTapItem: _addOrEditEntry,
+                        onDeleteItem: (entry) => BlocProvider.of<LogEntriesCubit>(context).deleteEntry(entry),
                         shrinkWrap: false,
                       ),
                     ),

@@ -11,6 +11,11 @@ class LogTagRepository {
     return entriesResult.map((entry) => LogTagModel.fromJson(entry.value).copyWith(id: entry.key)).toList();
   }
 
+  Future<LogTagModel> deleteLogTag(LogTagModel tag) async {
+    await this._logTagDataProvider.deleteLogTag(tag.id);
+    return tag;
+  }
+
   Future<LogTagModel> saveLogEntry(LogTagModel tag) async {
     if (tag.id == null) {
       int savedId = await this._logTagDataProvider.saveLogTag(tag.toJson());

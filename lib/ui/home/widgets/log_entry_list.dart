@@ -3,11 +3,13 @@ import 'package:daily_log/ui/home/widgets/log_entry_item.dart';
 import 'package:flutter/material.dart';
 
 class LogEntryList extends StatelessWidget {
-  const LogEntryList(this._list, {Key key, this.onTapItem, this.bottomPadding = true, this.shrinkWrap = true})
+  const LogEntryList(this._list,
+      {Key key, this.onTapItem, this.bottomPadding = true, this.shrinkWrap = true, this.onDeleteItem})
       : super(key: key);
 
   final List<LogEntryModel> _list;
   final Function(LogEntryModel entry) onTapItem;
+  final Function(LogEntryModel entry) onDeleteItem;
   final bool bottomPadding;
   final bool shrinkWrap;
 
@@ -17,6 +19,7 @@ class LogEntryList extends StatelessWidget {
       itemBuilder: (context, index) => LogEntryItem(
         _list[index],
         onTap: onTapItem,
+        onDelete: onDeleteItem,
       ),
       separatorBuilder: (context, index) => Divider(
         height: 0,

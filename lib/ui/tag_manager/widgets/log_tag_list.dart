@@ -10,11 +10,13 @@ class LogTagList extends StatelessWidget {
     @required this.onTapItem,
     this.bottomPadding = true,
     this.shrinkWrap = true,
+    this.onDeleteItem,
   })  : assert(tags != null),
         super(key: key);
 
   final List<LogTagModel> tags;
   final Function(LogTagModel tag) onTapItem;
+  final Function(LogTagModel tag) onDeleteItem;
   final bool bottomPadding;
   final bool shrinkWrap;
 
@@ -26,6 +28,7 @@ class LogTagList extends StatelessWidget {
         return LogTagItem(
           tag: tags[index],
           onTap: onTapItem,
+          onDelete: onDeleteItem,
         );
       },
       separatorBuilder: (context, index) => Divider(
