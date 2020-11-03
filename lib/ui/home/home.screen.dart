@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () => Navigator.pushNamed(context, SettingsScreen.routeName),
           ),
         ],
+        leading: _buildTodayButton(),
       ),
       body: _buildBody(),
       floatingActionButton: FloatingActionButton.extended(
@@ -124,5 +125,33 @@ class _HomeScreenState extends State<HomeScreen> {
       BlocProvider.of<LogEntryCubit>(context).resetState();
       BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
     });
+  }
+
+  Widget _buildTodayButton() {
+    return BlocBuilder<LogEntriesByDateCubit, LogEntriesByDateState>(
+      builder: (context, state) {
+        if (state is LogEntriesByDateLoaded &&
+            (state.date.day != DateTime.now().day ||
+                state.date.month != DateTime.now().month ||
+                state.date.year != DateTime.now().year)) {
+          return Padding(
+            padding: const EdgeInsets.all(6),
+            child: CircleAvatar(
+              backgroundColor: Colors.red.withOpacity(.7),
+              child: IconButton(
+                  icon: Icon(
+                    Icons.today_outlined,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    _calendarController.setSelectedDay(DateTime.now(), runCallback: true);
+                  }),
+            ),
+          );
+        } else {
+          return SizedBox.shrink();
+        }
+      },
+    );
   }
 }
