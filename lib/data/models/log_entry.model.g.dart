@@ -19,9 +19,7 @@ LogEntryModel _$LogEntryModelFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['assignedDateTime'] as String),
     id: json['id'] as int,
-    tag: json['tag'] == null
-        ? null
-        : LogTagModel.fromJson(json['tag'] as Map<String, dynamic>),
+    tag: json['tag'] == null ? null : LogTagModel.fromJson(json['tag']),
   );
 }
 

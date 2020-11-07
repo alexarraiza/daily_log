@@ -28,7 +28,7 @@ class LogEntryModel extends Equatable {
     this.tag,
   });
 
-  factory LogEntryModel.fromJson(Map<String, dynamic> json) => _$LogEntryModelFromJson(json);
+  factory LogEntryModel.fromJson(json) => _$LogEntryModelFromJson(Map<String, dynamic>.from(json));
 
   Map<String, dynamic> toJson() => _$LogEntryModelToJson(this);
 
