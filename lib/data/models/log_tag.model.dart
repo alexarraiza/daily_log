@@ -19,7 +19,7 @@ class LogTagModel extends Equatable {
 
   LogTagModel(this.tag, this.color, this.createDateTime, this.editDateTime, {this.id});
 
-  factory LogTagModel.fromJson(Map<String, dynamic> json) => _$LogTagModelFromJson(json);
+  factory LogTagModel.fromJson(json) => _$LogTagModelFromJson(Map<String, dynamic>.from(json));
 
   LogTagModel copyWith({
     id,

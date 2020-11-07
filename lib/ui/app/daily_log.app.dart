@@ -1,4 +1,4 @@
-import 'package:daily_log/data/data_providers/sembast.provider.dart';
+import 'package:daily_log/data/data_providers/hive.provider.dart';
 import 'package:daily_log/data/repositories/log_entry.repository.dart';
 import 'package:daily_log/data/repositories/log_tag.repository.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
@@ -26,16 +26,16 @@ class DailyLogApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(
-          create: (context) => SembastDataProvider(),
+          create: (context) => HiveDataProvider(),
         ),
       ],
       child: MultiRepositoryProvider(
         providers: [
           RepositoryProvider(
-            create: (context) => LogEntryRepository(context.read<SembastDataProvider>()),
+            create: (context) => LogEntryRepository(context.read<HiveDataProvider>()),
           ),
           RepositoryProvider(
-            create: (context) => LogTagRepository(context.read<SembastDataProvider>()),
+            create: (context) => LogTagRepository(context.read<HiveDataProvider>()),
           ),
         ],
         child: MultiBlocProvider(
