@@ -1,8 +1,23 @@
 {
     "@@locale": "en",
 
+    "placeholder_unexpected_state": "Nothing to see here, move along...",
+    "@placeholder_unexpected_state": {},
+
     "home_screen_title": "How are you today?",
     "@home_screen_title": {},
+
+    "home_screen_new_entry": "Add new entry",
+    "@home_screen_new_entry": {},
+
+    "log_entry_form_entry_label": "Entry",
+    "@log_entry_form_entry_label": {},
+    "log_entry_form_back_button": "BACK",
+    "@log_entry_form_back_button": {},
+    "log_entry_form_save_button": "SAVE",
+    "@log_entry_form_save_button": {},
+    "log_entry_form_add_tag": "Add tag",
+    "@log_entry_form_add_tag": {},
 
     "settings_screen_title": "Settings",
     "@settings_screen_title": {},
@@ -12,6 +27,23 @@
     "@settings_screen_manage_tags": {},
     "settings_screen_about_section": "About",
     "@settings_screen_about_section": {},
-    "settings_screen_about_this_app": "About this app",
-    "@settings_screen_about_this_app": {}
+    "settings_screen_about_this_app": "About DailyLog",
+    "@settings_screen_about_this_app": {},
+
+
+    "tag_manager_screen_title": "Tag Manager",
+    "@tag_manager_screen_title": {},
+    "tag_manager_screen_add_tag": "Add new tag",
+    "@tag_manager_screen_add_tag": {},
+
+    "log_tag_form_input_label": "Tag",
+    "@log_tag_form_input_label": {},
+    "log_tag_form_back_button": "BACK",
+    "@log_tag_form_back_button": {},
+    "log_tag_form_save_button": "SAVE",
+    "@log_tag_form_save_button": {},
+    "log_tag_form_color_picker_title": "Pick a color!",
+    "@log_tag_form_color_picker_title": {},
+    "log_tag_form_color_picker_button": "Got it",
+    "@log_tag_form_color_picker_button": {}
 }
