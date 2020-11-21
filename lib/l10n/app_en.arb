@@ -9,7 +9,6 @@
 
     "home_screen_new_entry": "Add new entry",
     "@home_screen_new_entry": {},
-
     "log_entry_form_entry_label": "Entry",
     "@log_entry_form_entry_label": {},
     "log_entry_form_back_button": "BACK",
@@ -18,7 +17,14 @@
     "@log_entry_form_save_button": {},
     "log_entry_form_add_tag": "Add tag",
     "@log_entry_form_add_tag": {},
-
+    "log_entry_form_save_error": "Error saving entry",
+    "@log_entry_form_save_error": {},
+    "log_entry_form_add_tag_dialog_new_tag": "New tag",
+    "@log_entry_form_add_tag_dialog_new_tag": {},
+    "log_entry_form_add_tag_dialog_deselect": "DESELECT",
+    "@log_entry_form_add_tag_dialog_deselect": {},
+    "log_entry_form_add_tag_dialog_ok": "OK",
+    "@log_entry_form_add_tag_dialog_ok": {},
     "settings_screen_title": "Settings",
     "@settings_screen_title": {},
     "settings_screen_app_settings_section": "App Settings",

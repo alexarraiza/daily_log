@@ -3,7 +3,7 @@ import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
 import 'package:daily_log/ui/common/log_tag.dart';
-import 'package:daily_log/ui/tag_manager/widgets/log_tag_list.dart';
+import 'package:daily_log/ui/home/widgets/log_entry_add_tag_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,8 +17,10 @@ class LogEntryForm extends StatefulWidget {
     Key key,
     this.logEntry,
   }) : super(key: key);
+
   @override
-  _LogEntryFormState createState() => _LogEntryFormState(logEntry, selectedDate);
+  _LogEntryFormState createState() =>
+      _LogEntryFormState(logEntry, selectedDate);
 }
 
 class _LogEntryFormState extends State<LogEntryForm> {
@@ -29,7 +31,8 @@ class _LogEntryFormState extends State<LogEntryForm> {
     if (entry != null) {
       currentEntry = entry;
     } else {
-      currentEntry = LogEntryModel('', DateTime.now(), DateTime.now(), selectedDate);
+      currentEntry =
+          LogEntryModel('', DateTime.now(), DateTime.now(), selectedDate);
     }
   }
 
@@ -57,7 +60,8 @@ class _LogEntryFormState extends State<LogEntryForm> {
               Navigator.pop(context);
             } else if (state is LogEntrySaveError) {
               Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('error'),
+                content: Text(
+                    AppLocalizations.of(context).log_entry_form_save_error),
                 behavior: SnackBarBehavior.floating,
               ));
             }
@@ -92,7 +96,10 @@ class _LogEntryFormState extends State<LogEntryForm> {
             controller: _entryTextController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              labelText: AppLocalizations.of(context).log_entry_form_entry_label,
+              labelText:
+              AppLocalizations
+                  .of(context)
+                  .log_entry_form_entry_label,
             ),
             expands: true,
             minLines: null,
@@ -110,17 +117,25 @@ class _LogEntryFormState extends State<LogEntryForm> {
     return BlocBuilder<LogTagsCubit, LogTagsState>(
       builder: (context, state) {
         if (state is LogTagsFetched) {
-          var contentColor = Theme.of(context).primaryColorLight.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+          var contentColor =
+          Theme
+              .of(context)
+              .primaryColorLight
+              .computeLuminance() > 0.5
+              ? Colors.black
+              : Colors.white;
           return Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 8),
             child: InkWell(
               child: currentEntry.tag == null
                   ? Badge(
-                      animationType: BadgeAnimationType.fade,
-                      shape: BadgeShape.square,
-                      borderRadius: BorderRadius.circular(4),
-                      badgeColor: Theme.of(context).primaryColorLight,
-                      badgeContent: Row(
+                animationType: BadgeAnimationType.fade,
+                shape: BadgeShape.square,
+                borderRadius: BorderRadius.circular(4),
+                badgeColor: Theme
+                    .of(context)
+                    .primaryColorLight,
+                badgeContent: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
@@ -129,32 +144,42 @@ class _LogEntryFormState extends State<LogEntryForm> {
                             color: contentColor,
                           ),
                           Text(
-                            AppLocalizations.of(context).log_entry_form_add_tag,
+                            AppLocalizations
+                                .of(context)
+                                .log_entry_form_add_tag,
                             style: TextStyle(color: contentColor),
                           )
                         ],
-                      ),
-                    )
-                  : LogTag(tag: currentEntry.tag),
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => Dialog(
-                  child: LogTagList(
-                    tags: state.tags,
-                    onTapItem: (tag) => setState(() {
-                      currentEntry = currentEntry.copyWith(tag: tag);
-                      Navigator.pop(context);
-                    }),
-                    bottomPadding: false,
-                  ),
                 ),
-              ),
+              )
+                  : LogTag(tag: currentEntry.tag),
+              onTap: () =>
+                  showDialog(
+                    context: context,
+                    builder: (context) => _buildAddTagDialog(),
+                  ),
             ),
           );
         } else {
           return SizedBox.shrink();
         }
       },
+    );
+  }
+
+  Widget _buildAddTagDialog() {
+    return LogEntryAddTagDialog(
+      onTagPressed: (tag) =>
+          setState(() {
+            currentEntry = currentEntry.copyWith(tag: tag);
+            Navigator.pop(context);
+          }),
+      onDeselectPressed: () =>
+          setState(() {
+            currentEntry = currentEntry.copyWith(tag: null);
+            Navigator.pop(context);
+          }),
+      onBackPressed: () => Navigator.pop(context),
     );
   }
 
@@ -174,8 +199,10 @@ class _LogEntryFormState extends State<LogEntryForm> {
           onPressed: () {
             if (_entryTextController.text.isNotEmpty) {
               setState(() {
-                currentEntry = currentEntry.copyWith(entry: _entryTextController.text);
-                BlocProvider.of<LogEntryCubit>(context).saveLogEntry(currentEntry);
+                currentEntry =
+                    currentEntry.copyWith(entry: _entryTextController.text);
+                BlocProvider.of<LogEntryCubit>(context)
+                    .saveLogEntry(currentEntry);
               });
             }
           },

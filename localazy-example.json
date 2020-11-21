@@ -1,0 +1,20 @@
+{
+  "writeKey": "write_key",
+  "readKey": "read_key",
+  "upload": {
+    "type": "arb",
+    "files": [
+      {
+        "lang": "en",
+        "pattern": "lib/l10n/app_en.arb"
+      },
+      {
+        "lang": "es",
+        "pattern": "lib/l10n/app_es.arb"
+      }
+    ]
+  },
+  "download": {
+    "files": "lib/l10n/app_${lang}.arb"
+  }
+}
