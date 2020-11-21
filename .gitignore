@@ -39,3 +39,10 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+#localazy
+localazy.json
+
+#google-services
+google-services.json
+GoogleService-Info.plist
