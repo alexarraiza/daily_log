@@ -13,12 +13,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.16.1
+  path: ^1.7.0
   path_provider: ^1.6.24
   provider: ^4.3.2+2
   bloc: ^6.1.0
   flutter_bloc: ^6.1.1
-  hive: ^1.4.4+1
-  hive_flutter: ^0.3.1
   equatable: ^1.2.5
   json_annotation: ^3.1.1
   table_calendar: ^2.3.0
@@ -27,6 +26,7 @@ dependencies:
   flutter_colorpicker: ^0.3.4
   firebase_core: ^0.5.2
   firebase_crashlytics: ^0.2.3
+  sembast: ^2.4.8
 
 dev_dependencies:
   mockito: ^4.1.3
