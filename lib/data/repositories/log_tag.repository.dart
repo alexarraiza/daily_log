@@ -17,7 +17,7 @@ class LogTagRepository {
     return tag;
   }
 
-  Future<LogTagModel> saveLogEntry(LogTagModel tag) async {
+  Future<LogTagModel> saveLogTag(LogTagModel tag) async {
     if (tag.id == null) {
       int savedId = await this._logTagDataProvider.saveLogTag(tag.toJson());
       LogTagModel tagWithId = tag.copyWith(id: savedId);

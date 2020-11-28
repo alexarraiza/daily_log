@@ -4,20 +4,13 @@ import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import '../../mocks/mock_log_entry.dart';
 import '../../mocks/mock_log_entry_repository.dart';
 
 void main() {
   group('Log Entries Cubit', () {
     LogEntriesCubit logEntriesCubit;
     MockLogEntryRepository mockLogEntryRepository;
-
-    LogEntryModel mockEntry = LogEntryModel(
-      'test entry',
-      DateTime.now(),
-      DateTime.now(),
-      DateTime.now(),
-      id: 1,
-    );
 
     setUp(() {
       mockLogEntryRepository = MockLogEntryRepository();
@@ -44,12 +37,12 @@ void main() {
       build: () => logEntriesCubit,
       act: (LogEntriesCubit cubit) {
         when(mockLogEntryRepository.fetchLogEntries())
-            .thenAnswer((realInvocation) => Future(() => List<LogEntryModel>()..add(mockEntry)));
+            .thenAnswer((realInvocation) => Future(() => List<LogEntryModel>()..add(mockLogEntry)));
         cubit.fetchLogEntries();
       },
       expect: [
         FetchingLogEntries(),
-        LogEntriesFetched([mockEntry])
+        LogEntriesFetched([mockLogEntry])
       ],
     );
 
@@ -57,10 +50,10 @@ void main() {
       'emits LogEntryDeleted after successfully deleting an entry',
       build: () => logEntriesCubit,
       act: (LogEntriesCubit cubit) {
-        cubit.deleteEntry(mockEntry);
+        cubit.deleteEntry(mockLogEntry);
       },
       expect: [
-        LogEntryDeleted(mockEntry),
+        LogEntryDeleted(mockLogEntry),
       ],
     );
 
@@ -68,8 +61,8 @@ void main() {
       'emits ErrorDeletingTag after failing to delete a tag',
       build: () => logEntriesCubit,
       act: (LogEntriesCubit cubit) {
-        when(mockLogEntryRepository.deleteLogEntry(mockEntry)).thenThrow(Error());
-        cubit.deleteEntry(mockEntry);
+        when(mockLogEntryRepository.deleteLogEntry(mockLogEntry)).thenThrow(Error());
+        cubit.deleteEntry(mockLogEntry);
       },
       expect: [
         ErrorDeletingEntry(),

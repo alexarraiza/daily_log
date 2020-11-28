@@ -9,6 +9,11 @@ class LogTagInitial extends LogTagState {
   List<Object> get props => [];
 }
 
+class SavingLogTag extends LogTagState {
+  @override
+  List<Object> get props => [];
+}
+
 class LogTagSaved extends LogTagState {
   final LogTagModel tag;
 

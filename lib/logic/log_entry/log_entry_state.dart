@@ -9,6 +9,11 @@ class LogEntryInitial extends LogEntryState {
   List<Object> get props => [];
 }
 
+class SavingLogEntry extends LogEntryState {
+  @override
+  List<Object> get props => [];
+}
+
 class LogEntrySaved extends LogEntryState {
   final LogEntryModel _logEntryModel;
 

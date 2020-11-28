@@ -1,24 +1,16 @@
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
-import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:daily_log/data/models/log_tag.model.dart';
 
+import '../../mocks/mock_log_tag.dart';
 import '../../mocks/mock_log_tag_repository.dart';
 
 void main() {
   group('LogTagsCubit', () {
     LogTagsCubit logTagsCubit;
     MockLogTagRepository mockLogTagRepository;
-
-    LogTagModel mockTag = LogTagModel(
-      'test',
-      Colors.red,
-      DateTime.now(),
-      DateTime.now(),
-      id: 1,
-    );
 
     setUp(() {
       mockLogTagRepository = MockLogTagRepository();
@@ -45,12 +37,12 @@ void main() {
       build: () => logTagsCubit,
       act: (LogTagsCubit cubit) {
         when(mockLogTagRepository.fetchLogTags())
-            .thenAnswer((realInvocation) => Future(() => List<LogTagModel>()..add(mockTag)));
+            .thenAnswer((realInvocation) => Future(() => List<LogTagModel>()..add(mockLogTag)));
         cubit.fetchTags();
       },
       expect: [
         FetchingTags(),
-        LogTagsFetched([mockTag])
+        LogTagsFetched([mockLogTag])
       ],
     );
 
@@ -58,10 +50,10 @@ void main() {
       'emits LogTagDeleted after successfully deleting a tag',
       build: () => logTagsCubit,
       act: (LogTagsCubit cubit) {
-        cubit.deleteTag(mockTag);
+        cubit.deleteTag(mockLogTag);
       },
       expect: [
-        LogTagDeleted(mockTag),
+        LogTagDeleted(mockLogTag),
       ],
     );
 
@@ -69,8 +61,8 @@ void main() {
       'emits ErrorDeletingTag after failing to delete a tag',
       build: () => logTagsCubit,
       act: (LogTagsCubit cubit) {
-        when(mockLogTagRepository.deleteLogTag(mockTag)).thenThrow(Error());
-        cubit.deleteTag(mockTag);
+        when(mockLogTagRepository.deleteLogTag(mockLogTag)).thenThrow(Error());
+        cubit.deleteTag(mockLogTag);
       },
       expect: [
         ErrorDeletingTag(),

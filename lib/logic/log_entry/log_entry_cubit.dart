@@ -11,11 +11,10 @@ class LogEntryCubit extends Cubit<LogEntryState> {
   LogEntryCubit(this._logEntryRepository) : super(LogEntryInitial());
 
   void saveLogEntry(LogEntryModel logEntry) async {
+    emit(SavingLogEntry());
     try {
       emit(LogEntrySaved(await this._logEntryRepository.saveLogEntry(logEntry)));
-    } catch (error, stacktrace) {
-      print(error);
-      print(stacktrace);
+    } catch (_) {
       emit(LogEntrySaveError(logEntry));
     }
   }

@@ -11,8 +11,9 @@ class LogTagCubit extends Cubit<LogTagState> {
   LogTagCubit(this._logTagRepository) : super(LogTagInitial());
 
   void saveLogTag(LogTagModel tag) async {
+    emit(SavingLogTag());
     try {
-      emit(LogTagSaved(await this._logTagRepository.saveLogEntry(tag)));
+      emit(LogTagSaved(await this._logTagRepository.saveLogTag(tag)));
     } catch (error, stacktrace) {
       print(error);
       print(stacktrace);
