@@ -3,6 +3,7 @@
 A simple and private note taking app.
 
 ![Dart CI](https://github.com/alexarraiza/daily_log/workflows/Dart%20CI/badge.svg?branch=master)
+[![Codemagic build status](https://api.codemagic.io/apps/5fb12acd605096c8217aaa11/5fb12acd605096c8217aaa10/status_badge.svg)](https://codemagic.io/apps/5fb12acd605096c8217aaa11/5fb12acd605096c8217aaa10/latest_build)
 
 ## Getting Started
 
