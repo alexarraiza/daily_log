@@ -9,10 +9,21 @@ class LogEntriesCubit extends Cubit<LogEntriesState> {
   final LogEntryRepository _logEntryRepository;
   LogEntriesCubit(this._logEntryRepository) : super(LogEntriesInitial());
 
-  void fetchLogEntries() async => emit(LogEntriesFetched(await _logEntryRepository.fetchLogEntries()));
+  void fetchLogEntries() async {
+    emit(FetchingLogEntries());
+    try {
+      emit(LogEntriesFetched(await _logEntryRepository.fetchLogEntries()));
+    } catch (_) {
+      emit(ErrorFetchingEntries());
+    }
+  }
 
   void deleteEntry(LogEntryModel entry) async {
-    await this._logEntryRepository.deleteLogEntry(entry);
-    fetchLogEntries();
+    try {
+      await this._logEntryRepository.deleteLogEntry(entry);
+      emit(LogEntryDeleted(entry));
+    } catch (_) {
+      emit(ErrorDeletingEntry());
+    }
   }
 }

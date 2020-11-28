@@ -41,25 +41,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(AppLocalizations.of(context).home_screen_title),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () => Navigator.pushNamed(context, SettingsScreen.routeName),
-          ),
-        ],
-        leading: _buildTodayButton(),
+    return BlocListener<LogEntriesCubit, LogEntriesState>(
+      listener: (context, state) {
+        if (state is LogEntryDeleted) {
+          BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(AppLocalizations.of(context).home_screen_title),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () => Navigator.pushNamed(context, SettingsScreen.routeName),
+            ),
+          ],
+          leading: _buildTodayButton(),
+        ),
+        body: _buildBody(),
+        floatingActionButton: FloatingActionButton.extended(
+          label: Text(AppLocalizations.of(context).home_screen_new_entry),
+          icon: Icon(Icons.add),
+          onPressed: () => _addOrEditEntry(null),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      body: _buildBody(),
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text(AppLocalizations.of(context).home_screen_new_entry),
-        icon: Icon(Icons.add),
-        onPressed: () => _addOrEditEntry(null),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
