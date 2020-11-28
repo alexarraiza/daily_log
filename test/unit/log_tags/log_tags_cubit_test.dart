@@ -21,52 +21,54 @@ void main() {
     test('initial state is LogTagInitial', () {
       expect(logTagsCubit.state, LogTagsInitial());
     });
+    group('fetchTags', () {
+      blocTest(
+        'emits ErrorFetchingTags if fetching tags fails',
+        build: () => logTagsCubit,
+        act: (LogTagsCubit cubit) {
+          when(mockLogTagRepository.fetchLogTags()).thenThrow(Error());
+          cubit.fetchTags();
+        },
+        expect: [FetchingTags(), ErrorFetchingTags()],
+      );
 
-    blocTest(
-      'emits ErrorFetchingTags if fetching tags fails',
-      build: () => logTagsCubit,
-      act: (LogTagsCubit cubit) {
-        when(mockLogTagRepository.fetchLogTags()).thenThrow(Error());
-        cubit.fetchTags();
-      },
-      expect: [FetchingTags(), ErrorFetchingTags()],
-    );
+      blocTest(
+        'emits LogTagsFetched if fetching tags succeeds',
+        build: () => logTagsCubit,
+        act: (LogTagsCubit cubit) {
+          when(mockLogTagRepository.fetchLogTags())
+              .thenAnswer((realInvocation) => Future(() => List<LogTagModel>()..add(mockLogTag)));
+          cubit.fetchTags();
+        },
+        expect: [
+          FetchingTags(),
+          LogTagsFetched([mockLogTag])
+        ],
+      );
+    });
+    group('deleteTag', () {
+      blocTest(
+        'emits LogTagDeleted after successfully deleting a tag',
+        build: () => logTagsCubit,
+        act: (LogTagsCubit cubit) {
+          cubit.deleteTag(mockLogTag);
+        },
+        expect: [
+          LogTagDeleted(mockLogTag),
+        ],
+      );
 
-    blocTest(
-      'emits LogTagsFetched if fetching tags succeeds',
-      build: () => logTagsCubit,
-      act: (LogTagsCubit cubit) {
-        when(mockLogTagRepository.fetchLogTags())
-            .thenAnswer((realInvocation) => Future(() => List<LogTagModel>()..add(mockLogTag)));
-        cubit.fetchTags();
-      },
-      expect: [
-        FetchingTags(),
-        LogTagsFetched([mockLogTag])
-      ],
-    );
-
-    blocTest(
-      'emits LogTagDeleted after successfully deleting a tag',
-      build: () => logTagsCubit,
-      act: (LogTagsCubit cubit) {
-        cubit.deleteTag(mockLogTag);
-      },
-      expect: [
-        LogTagDeleted(mockLogTag),
-      ],
-    );
-
-    blocTest(
-      'emits ErrorDeletingTag after failing to delete a tag',
-      build: () => logTagsCubit,
-      act: (LogTagsCubit cubit) {
-        when(mockLogTagRepository.deleteLogTag(mockLogTag)).thenThrow(Error());
-        cubit.deleteTag(mockLogTag);
-      },
-      expect: [
-        ErrorDeletingTag(),
-      ],
-    );
+      blocTest(
+        'emits ErrorDeletingTag after failing to delete a tag',
+        build: () => logTagsCubit,
+        act: (LogTagsCubit cubit) {
+          when(mockLogTagRepository.deleteLogTag(mockLogTag)).thenThrow(Error());
+          cubit.deleteTag(mockLogTag);
+        },
+        expect: [
+          ErrorDeletingTag(),
+        ],
+      );
+    });
   });
 }

@@ -21,52 +21,54 @@ void main() {
     test('initial state is LogTagInitial', () {
       expect(logEntriesCubit.state, LogEntriesInitial());
     });
+    group('fetchLogEntries', () {
+      blocTest(
+        'emits ErrorFetchingEntries if fetching entries fails',
+        build: () => logEntriesCubit,
+        act: (LogEntriesCubit cubit) {
+          when(mockLogEntryRepository.fetchLogEntries()).thenThrow(Error());
+          cubit.fetchLogEntries();
+        },
+        expect: [FetchingLogEntries(), ErrorFetchingEntries()],
+      );
 
-    blocTest(
-      'emits ErrorFetchingEntries if fetching entries fails',
-      build: () => logEntriesCubit,
-      act: (LogEntriesCubit cubit) {
-        when(mockLogEntryRepository.fetchLogEntries()).thenThrow(Error());
-        cubit.fetchLogEntries();
-      },
-      expect: [FetchingLogEntries(), ErrorFetchingEntries()],
-    );
+      blocTest(
+        'emits LogEntriesFetched if fetching entries succeeds',
+        build: () => logEntriesCubit,
+        act: (LogEntriesCubit cubit) {
+          when(mockLogEntryRepository.fetchLogEntries())
+              .thenAnswer((realInvocation) => Future(() => List<LogEntryModel>()..add(mockLogEntry)));
+          cubit.fetchLogEntries();
+        },
+        expect: [
+          FetchingLogEntries(),
+          LogEntriesFetched([mockLogEntry])
+        ],
+      );
+    });
+    group('deleteEntry', () {
+      blocTest(
+        'emits LogEntryDeleted after successfully deleting an entry',
+        build: () => logEntriesCubit,
+        act: (LogEntriesCubit cubit) {
+          cubit.deleteEntry(mockLogEntry);
+        },
+        expect: [
+          LogEntryDeleted(mockLogEntry),
+        ],
+      );
 
-    blocTest(
-      'emits LogEntriesFetched if fetching entries succeeds',
-      build: () => logEntriesCubit,
-      act: (LogEntriesCubit cubit) {
-        when(mockLogEntryRepository.fetchLogEntries())
-            .thenAnswer((realInvocation) => Future(() => List<LogEntryModel>()..add(mockLogEntry)));
-        cubit.fetchLogEntries();
-      },
-      expect: [
-        FetchingLogEntries(),
-        LogEntriesFetched([mockLogEntry])
-      ],
-    );
-
-    blocTest(
-      'emits LogEntryDeleted after successfully deleting an entry',
-      build: () => logEntriesCubit,
-      act: (LogEntriesCubit cubit) {
-        cubit.deleteEntry(mockLogEntry);
-      },
-      expect: [
-        LogEntryDeleted(mockLogEntry),
-      ],
-    );
-
-    blocTest(
-      'emits ErrorDeletingTag after failing to delete a tag',
-      build: () => logEntriesCubit,
-      act: (LogEntriesCubit cubit) {
-        when(mockLogEntryRepository.deleteLogEntry(mockLogEntry)).thenThrow(Error());
-        cubit.deleteEntry(mockLogEntry);
-      },
-      expect: [
-        ErrorDeletingEntry(),
-      ],
-    );
+      blocTest(
+        'emits ErrorDeletingTag after failing to delete a tag',
+        build: () => logEntriesCubit,
+        act: (LogEntriesCubit cubit) {
+          when(mockLogEntryRepository.deleteLogEntry(mockLogEntry)).thenThrow(Error());
+          cubit.deleteEntry(mockLogEntry);
+        },
+        expect: [
+          ErrorDeletingEntry(),
+        ],
+      );
+    });
   });
 }
