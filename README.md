@@ -1,6 +1,8 @@
 # daily_log
 
-A new Flutter project.
+A simple and private note taking app.
+
+![Dart CI](https://github.com/alexarraiza/daily_log/workflows/Dart%20CI/badge.svg?branch=master)
 
 ## Getting Started
 
