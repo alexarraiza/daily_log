@@ -25,30 +25,37 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).tag_manager_screen_title),
+    return BlocListener<LogTagCubit, LogTagState>(
+      listener: (context, state) {
+        if (state is LogTagDeleted) {
+          BlocProvider.of<LogTagsCubit>(context).fetchTags();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context).tag_manager_screen_title),
+        ),
+        body: BlocBuilder<LogTagsCubit, LogTagsState>(
+          builder: (context, state) {
+            if (state is LogTagsFetched) {
+              return LogTagList(
+                tags: state.tags,
+                onTapItem: _addOrEditTag,
+                onDeleteItem: (tag) => BlocProvider.of<LogTagsCubit>(context).deleteTag(tag),
+                shrinkWrap: false,
+              );
+            } else {
+              return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () => _addOrEditTag(null),
+          label: Text(AppLocalizations.of(context).tag_manager_screen_add_tag),
+          icon: Icon(Icons.add),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      body: BlocBuilder<LogTagsCubit, LogTagsState>(
-        builder: (context, state) {
-          if (state is LogTagsFetched) {
-            return LogTagList(
-              tags: state.tags,
-              onTapItem: _addOrEditTag,
-              onDeleteItem: (tag) => BlocProvider.of<LogTagsCubit>(context).deleteTag(tag),
-              shrinkWrap: false,
-            );
-          } else {
-            return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _addOrEditTag(null),
-        label: Text(AppLocalizations.of(context).tag_manager_screen_add_tag),
-        icon: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

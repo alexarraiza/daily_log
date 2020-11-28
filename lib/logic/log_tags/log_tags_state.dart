@@ -17,3 +17,32 @@ class LogTagsFetched extends LogTagsState {
   @override
   List<Object> get props => [this.tags];
 }
+
+class FetchingTags extends LogTagsState {
+  FetchingTags();
+
+  @override
+  List<Object> get props => [];
+}
+
+class ErrorFetchingTags extends LogTagsState {
+  ErrorFetchingTags();
+
+  @override
+  List<Object> get props => [];
+}
+
+class LogTagDeleted extends LogTagsState {
+  final LogTagModel tagDeleted;
+  LogTagDeleted(this.tagDeleted);
+
+  @override
+  List<Object> get props => [this.tagDeleted];
+}
+
+class ErrorDeletingTag extends LogTagsState {
+  ErrorDeletingTag();
+
+  @override
+  List<Object> get props => [];
+}
