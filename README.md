@@ -29,6 +29,12 @@ A new Flutter project.
 
 ## RoadMap
 
+### WIP
+
 - Implement testing
-- Optimize database access
+
+### TODO
+
+- Optimize database access for data scalability
 - Publish it fully to Android Play Store (currently is in internal testing)
+- Publish it to iOS App Store (need to get an iOS dev license hahaha)
