@@ -1,8 +1,7 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
-import 'package:bloc_test/bloc_test.dart';
-import 'package:daily_log/data/models/log_tag.model.dart';
 
 import '../../mocks/mock_log_tag.dart';
 import '../../mocks/mock_log_tag_repository.dart';
@@ -37,7 +36,7 @@ void main() {
         build: () => logTagsCubit,
         act: (LogTagsCubit cubit) {
           when(mockLogTagRepository.fetchLogTags())
-              .thenAnswer((realInvocation) => Future(() => List<LogTagModel>()..add(mockLogTag)));
+              .thenAnswer((realInvocation) => Future(() => [mockLogTag]));
           cubit.fetchTags();
         },
         expect: [

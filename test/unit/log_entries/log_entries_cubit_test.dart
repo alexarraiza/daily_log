@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -37,7 +36,7 @@ void main() {
         build: () => logEntriesCubit,
         act: (LogEntriesCubit cubit) {
           when(mockLogEntryRepository.fetchLogEntries())
-              .thenAnswer((realInvocation) => Future(() => List<LogEntryModel>()..add(mockLogEntry)));
+              .thenAnswer((realInvocation) => Future(() => [mockLogEntry]));
           cubit.fetchLogEntries();
         },
         expect: [

@@ -55,7 +55,7 @@ class _LogTagFormState extends State<LogTagForm> {
             if (state is LogTagSaved) {
               Navigator.pop(context);
             } else if (state is LogTagSaveError) {
-              Scaffold.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('error'),
                 behavior: SnackBarBehavior.floating,
               ));
@@ -126,8 +126,10 @@ class _LogTagFormState extends State<LogTagForm> {
             style: TextStyle(color: Colors.red),
           ),
         ),
-        RaisedButton(
-          color: Theme.of(context).accentColor,
+        ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).accentColor)),
           onPressed: () {
             if (_tagTextController.text.isNotEmpty) {
               setState(() {
@@ -146,8 +148,9 @@ class _LogTagFormState extends State<LogTagForm> {
     Color pickerColor = currentTag.color;
     showDialog(
       context: context,
-      child: AlertDialog(
-        title: Text(AppLocalizations.of(context).log_tag_form_color_picker_title),
+      builder: (context) => AlertDialog(
+        title:
+            Text(AppLocalizations.of(context).log_tag_form_color_picker_title),
         content: SingleChildScrollView(
           child: BlockPicker(
             pickerColor: pickerColor,
@@ -159,10 +162,12 @@ class _LogTagFormState extends State<LogTagForm> {
           ),
         ),
         actions: <Widget>[
-          FlatButton(
-            child: Text(AppLocalizations.of(context).log_tag_form_color_picker_button),
+          TextButton(
+            child: Text(
+                AppLocalizations.of(context).log_tag_form_color_picker_button),
             onPressed: () {
-              setState(() => currentTag = currentTag.copyWith(color: pickerColor));
+              setState(
+                  () => currentTag = currentTag.copyWith(color: pickerColor));
               Navigator.of(context).pop();
             },
           ),
