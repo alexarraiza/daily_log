@@ -1,3 +1,4 @@
+import 'package:daily_log/ui/common/our_app_bar.dart';
 import 'package:daily_log/ui/tag_manager/tag_manager.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,9 +9,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).settings_screen_title),
-      ),
+      appBar: buildOurAppBar(Text(AppLocalizations.of(context).settings_screen_title)),
       body: SingleChildScrollView(
         child: Column(
           children: [

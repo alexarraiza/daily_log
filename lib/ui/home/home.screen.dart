@@ -5,14 +5,15 @@ import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
 import 'package:daily_log/logic/log_entries_by_date/log_entries_by_date_cubit.dart';
 import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
-import 'package:daily_log/ui/home/widgets/log_entry_list.dart';
+import 'package:daily_log/ui/common/our_app_bar.dart';
 import 'package:daily_log/ui/home/widgets/log_entry_form.dart';
+import 'package:daily_log/ui/home/widgets/log_entry_list.dart';
 import 'package:daily_log/ui/settings/settings.screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'widgets/calendar.dart';
 
@@ -48,9 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(AppLocalizations.of(context).home_screen_title),
+        appBar: buildOurAppBar(
+          Text(AppLocalizations.of(context).home_screen_title),
           actions: [
             IconButton(
               icon: Icon(Icons.settings),
@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     Material(
+                      color: Colors.black,
                       elevation: 2,
                       child: Calendar(
                         Platform.localeName,
@@ -144,17 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 state.date.year != DateTime.now().year)) {
           return Padding(
             padding: const EdgeInsets.all(6),
-            child: CircleAvatar(
-              backgroundColor: Colors.red.withOpacity(.7),
-              child: IconButton(
-                  icon: Icon(
-                    Icons.today_outlined,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    _calendarController.setSelectedDay(DateTime.now(), runCallback: true);
-                  }),
-            ),
+            child: IconButton(
+                icon: Icon(
+                  Icons.today_outlined,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  _calendarController.setSelectedDay(DateTime.now(), runCallback: true);
+                }),
           );
         } else {
           return SizedBox.shrink();

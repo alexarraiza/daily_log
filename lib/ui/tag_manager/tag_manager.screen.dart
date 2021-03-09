@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:daily_log/logic/log_tag/log_tag_cubit.dart';
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
+import 'package:daily_log/ui/common/our_app_bar.dart';
 import 'package:daily_log/ui/tag_manager/widgets/log_tag_form.dart';
 import 'package:daily_log/ui/tag_manager/widgets/log_tag_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TagManagerScreen extends StatefulWidget {
@@ -32,9 +33,7 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context).tag_manager_screen_title),
-        ),
+        appBar: buildOurAppBar(Text(AppLocalizations.of(context).tag_manager_screen_title)),
         body: BlocBuilder<LogTagsCubit, LogTagsState>(
           builder: (context, state) {
             if (state is LogTagsFetched) {
