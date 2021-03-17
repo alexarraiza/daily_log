@@ -80,13 +80,15 @@ class LogEntryAddTagDialog extends StatelessWidget {
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () => onBackPressed(),
                     child: Text(
                       AppLocalizations.of(context)
                           .log_entry_form_add_tag_dialog_ok,
                     ),
-                    color: Theme.of(context).accentColor,
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).accentColor)),
                   ),
                 ],
               ),

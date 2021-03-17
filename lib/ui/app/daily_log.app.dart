@@ -11,8 +11,8 @@ import 'package:daily_log/ui/settings/settings.screen.dart';
 import 'package:daily_log/ui/tag_manager/tag_manager.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class DailyLogApp extends StatelessWidget {
   @override
@@ -65,7 +65,12 @@ class DailyLogApp extends StatelessWidget {
   MaterialApp _buildApp() {
     return MaterialApp(
       title: 'DailyLog',
-      theme: ThemeData(primarySwatch: Colors.blueGrey),
+      theme: ThemeData(
+        primaryColor: Colors.black,
+        primaryColorDark: Colors.grey,
+        primaryColorLight: Colors.white,
+        accentColor: Colors.black,
+      ),
       home: HomeScreen(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

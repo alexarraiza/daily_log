@@ -59,7 +59,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
             if (state is LogEntrySaved) {
               Navigator.pop(context);
             } else if (state is LogEntrySaveError) {
-              Scaffold.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
                     AppLocalizations.of(context).log_entry_form_save_error),
                 behavior: SnackBarBehavior.floating,
@@ -194,8 +194,10 @@ class _LogEntryFormState extends State<LogEntryForm> {
             style: TextStyle(color: Colors.red),
           ),
         ),
-        RaisedButton(
-          color: Theme.of(context).accentColor,
+        ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).accentColor)),
           onPressed: () {
             if (_entryTextController.text.isNotEmpty) {
               setState(() {
