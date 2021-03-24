@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:daily_log/data/models/log_entry.model.dart';
@@ -13,9 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:table_calendar/table_calendar.dart';
-
-import 'widgets/calendar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'home/';
@@ -25,19 +21,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  CalendarController _calendarController;
-
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
     BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
-  }
-
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
   }
 
   @override
@@ -76,21 +63,20 @@ class _HomeScreenState extends State<HomeScreen> {
         return BlocBuilder<LogEntriesByDateCubit, LogEntriesByDateState>(
           builder: (context, filteredEntriesState) {
             if (entriesState is LogEntriesFetched && filteredEntriesState is LogEntriesByDateLoaded) {
+              print(BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected());
               return Material(
                 child: Column(
                   children: [
-                    Material(
-                      color: Colors.black,
-                      elevation: 2,
-                      child: Calendar(
-                        Platform.localeName,
-                        _calendarController,
-                        onDaySelected: (day, events, holidays) =>
-                            BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(day),
-                        initialDateSelected: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
-                        logEntries: entriesState.logEntries,
-                      ),
-                    ),
+                    // Material(
+                    //   color: Colors.black,
+                    //   elevation: 2,
+                    //   child: Calendar(
+                    //     Platform.localeName,
+                    //     onDaySelected: (day) => BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(day),
+                    //     focusedDay: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+                    //     logEntries: entriesState.logEntries,
+                    //   ),
+                    // ),
                     Expanded(
                       child: LogEntryList(
                         filteredEntriesState.entries,
@@ -146,13 +132,12 @@ class _HomeScreenState extends State<HomeScreen> {
           return Padding(
             padding: const EdgeInsets.all(6),
             child: IconButton(
-                icon: Icon(
-                  Icons.today_outlined,
-                  color: Colors.red,
-                ),
-                onPressed: () {
-                  _calendarController.setSelectedDay(DateTime.now(), runCallback: true);
-                }),
+              icon: Icon(
+                Icons.today_outlined,
+                color: Colors.red,
+              ),
+              onPressed: () => BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(DateTime.now()),
+            ),
           );
         } else {
           return SizedBox.shrink();

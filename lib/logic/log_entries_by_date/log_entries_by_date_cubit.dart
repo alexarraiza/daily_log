@@ -17,7 +17,7 @@ class LogEntriesByDateCubit extends Cubit<LogEntriesByDateState> {
   LogEntriesByDateCubit(this._logEntriesCubit) : super(LogEntriesByDateInitial()) {
     if (_logEntriesCubit.state is LogEntriesFetched)
       _entries = (_logEntriesCubit.state as LogEntriesFetched).logEntries;
-    _logEntriesSubscription = _logEntriesCubit.listen((state) {
+    _logEntriesSubscription = _logEntriesCubit.stream.listen((state) {
       if (state is LogEntriesFetched) {
         updatedEntries(state.logEntries);
       }

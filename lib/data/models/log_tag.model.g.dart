@@ -10,12 +10,8 @@ LogTagModel _$LogTagModelFromJson(Map<String, dynamic> json) {
   return LogTagModel(
     json['tag'] as String,
     LogTagModel.colorFromJson(json['color'] as int),
-    json['createDateTime'] == null
-        ? null
-        : DateTime.parse(json['createDateTime'] as String),
-    json['editDateTime'] == null
-        ? null
-        : DateTime.parse(json['editDateTime'] as String),
+    DateTime.parse(json['createDateTime'] as String),
+    DateTime.parse(json['editDateTime'] as String),
     id: json['id'] as int,
   );
 }
@@ -25,6 +21,6 @@ Map<String, dynamic> _$LogTagModelToJson(LogTagModel instance) =>
       'id': instance.id,
       'tag': instance.tag,
       'color': LogTagModel.colorToJson(instance.color),
-      'createDateTime': instance.createDateTime?.toIso8601String(),
-      'editDateTime': instance.editDateTime?.toIso8601String(),
+      'createDateTime': instance.createDateTime.toIso8601String(),
+      'editDateTime': instance.editDateTime.toIso8601String(),
     };
