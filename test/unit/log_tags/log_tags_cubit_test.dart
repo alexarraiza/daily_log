@@ -28,7 +28,7 @@ void main() {
           when(mockLogTagRepository.fetchLogTags()).thenThrow(Error());
           cubit.fetchTags();
         },
-        expect: [FetchingTags(), ErrorFetchingTags()],
+        expect: () => [FetchingTags(), ErrorFetchingTags()],
       );
 
       blocTest(
@@ -39,7 +39,7 @@ void main() {
               .thenAnswer((realInvocation) => Future(() => [mockLogTag]));
           cubit.fetchTags();
         },
-        expect: [
+        expect: () => [
           FetchingTags(),
           LogTagsFetched([mockLogTag])
         ],
@@ -52,7 +52,7 @@ void main() {
         act: (LogTagsCubit cubit) {
           cubit.deleteTag(mockLogTag);
         },
-        expect: [
+        expect: () => [
           LogTagDeleted(mockLogTag),
         ],
       );
@@ -64,7 +64,7 @@ void main() {
           when(mockLogTagRepository.deleteLogTag(mockLogTag)).thenThrow(Error());
           cubit.deleteTag(mockLogTag);
         },
-        expect: [
+        expect: () => [
           ErrorDeletingTag(),
         ],
       );

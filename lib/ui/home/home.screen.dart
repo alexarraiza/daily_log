@@ -66,6 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
               print(BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected());
               return Material(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // Material(
                     //   color: Colors.black,
@@ -78,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //   ),
                     // ),
                     Expanded(
+                      flex: 2,
                       child: LogEntryList(
                         filteredEntriesState.entries,
                         onTapItem: _addOrEditEntry,

@@ -26,7 +26,7 @@ void main() {
         'resetState should return the bloc to its initial state',
         build: () => logEntryCubit,
         act: (LogEntryCubit cubit) => cubit.resetState(),
-        expect: [LogEntryInitial()],
+        expect: () => [LogEntryInitial()],
       );
     });
 
@@ -39,7 +39,7 @@ void main() {
               .thenAnswer((realInvocation) => Future(() => mockLogEntry));
           cubit.saveLogEntry(mockLogEntry);
         },
-        expect: [SavingLogEntry(), LogEntrySaved(mockLogEntry)],
+        expect: () => [SavingLogEntry(), LogEntrySaved(mockLogEntry)],
       );
 
       blocTest(
@@ -49,7 +49,7 @@ void main() {
           when(mockLogEntryRepository.saveLogEntry(mockLogEntry)).thenThrow(Error());
           cubit.saveLogEntry(mockLogEntry);
         },
-        expect: [SavingLogEntry(), LogEntrySaveError(mockLogEntry)],
+        expect: () => [SavingLogEntry(), LogEntrySaveError(mockLogEntry)],
       );
     });
   });

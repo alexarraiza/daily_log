@@ -26,7 +26,7 @@ void main() {
         'resetState should return the bloc to its initial state',
         build: () => logTagCubit,
         act: (LogTagCubit cubit) => cubit.resetState(),
-        expect: [LogTagInitial()],
+        expect: () => [LogTagInitial()],
       );
     });
     group('saveLogTag', () {
@@ -37,7 +37,7 @@ void main() {
           when(mockLogTagRepository.saveLogTag(mockLogTag)).thenAnswer((realInvocation) => Future(() => mockLogTag));
           cubit.saveLogTag(mockLogTag);
         },
-        expect: [SavingLogTag(), LogTagSaved(mockLogTag)],
+        expect: () => [SavingLogTag(), LogTagSaved(mockLogTag)],
       );
 
       blocTest(
@@ -47,7 +47,7 @@ void main() {
           when(mockLogTagRepository.saveLogTag(mockLogTag)).thenThrow(Error());
           cubit.saveLogTag(mockLogTag);
         },
-        expect: [SavingLogTag(), LogTagSaveError(mockLogTag)],
+        expect: () => [SavingLogTag(), LogTagSaveError(mockLogTag)],
       );
     });
   });

@@ -28,7 +28,7 @@ void main() {
         'emits LogEntriesByDateLoaded',
         build: () => logEntriesByDateCubit,
         act: (LogEntriesByDateCubit cubit) => cubit.getEntriesByDate(DateTime.now()),
-        expect: [LogEntriesByDateLoaded],
+        expect: () => [LogEntriesByDateLoaded],
       );
     });
 

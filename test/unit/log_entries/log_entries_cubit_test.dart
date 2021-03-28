@@ -28,7 +28,7 @@ void main() {
           when(mockLogEntryRepository.fetchLogEntries()).thenThrow(Error());
           cubit.fetchLogEntries();
         },
-        expect: [FetchingLogEntries(), ErrorFetchingEntries()],
+        expect: () => [FetchingLogEntries(), ErrorFetchingEntries()],
       );
 
       blocTest(
@@ -39,7 +39,7 @@ void main() {
               .thenAnswer((realInvocation) => Future(() => [mockLogEntry]));
           cubit.fetchLogEntries();
         },
-        expect: [
+        expect: () => [
           FetchingLogEntries(),
           LogEntriesFetched([mockLogEntry])
         ],
@@ -52,7 +52,7 @@ void main() {
         act: (LogEntriesCubit cubit) {
           cubit.deleteEntry(mockLogEntry);
         },
-        expect: [
+        expect: () => [
           LogEntryDeleted(mockLogEntry),
         ],
       );
@@ -64,7 +64,7 @@ void main() {
           when(mockLogEntryRepository.deleteLogEntry(mockLogEntry)).thenThrow(Error());
           cubit.deleteEntry(mockLogEntry);
         },
-        expect: [
+        expect: () => [
           ErrorDeletingEntry(),
         ],
       );
