@@ -8,8 +8,8 @@ import '../../mocks/mock_log_entry_repository.dart';
 
 void main() {
   group('LogEntryCubit', () {
-    LogEntryCubit logEntryCubit;
-    MockLogEntryRepository mockLogEntryRepository;
+    late LogEntryCubit logEntryCubit;
+    late MockLogEntryRepository mockLogEntryRepository;
 
     setUp(() {
       mockLogEntryRepository = MockLogEntryRepository();

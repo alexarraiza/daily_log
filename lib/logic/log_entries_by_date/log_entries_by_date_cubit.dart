@@ -10,7 +10,7 @@ part 'log_entries_by_date_state.dart';
 class LogEntriesByDateCubit extends Cubit<LogEntriesByDateState> {
   final LogEntriesCubit _logEntriesCubit;
 
-  StreamSubscription _logEntriesSubscription;
+  late StreamSubscription _logEntriesSubscription;
   List<LogEntryModel> _entries = const [];
   DateTime _dateTime = DateTime.now();
 

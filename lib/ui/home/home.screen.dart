@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: buildOurAppBar(
-          Text(AppLocalizations.of(context).home_screen_title),
+          Text(AppLocalizations.of(context)!.home_screen_title),
           actions: [
             IconButton(
               icon: Icon(Icons.settings),
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: _buildBody(),
         floatingActionButton: FloatingActionButton.extended(
-          label: Text(AppLocalizations.of(context).home_screen_new_entry),
+          label: Text(AppLocalizations.of(context)!.home_screen_new_entry),
           icon: Icon(Icons.add),
           onPressed: () => _addOrEditEntry(null),
         ),
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             } else {
-              return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));
+              return Center(child: Text(AppLocalizations.of(context)!.placeholder_unexpected_state));
             }
           },
         );
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _addOrEditEntry(LogEntryModel entry) {
+  void _addOrEditEntry(LogEntryModel? entry) {
     showDialog(
       context: context,
       builder: (context) => Stack(

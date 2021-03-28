@@ -16,7 +16,7 @@ class SembastDataProvider implements LogEntryBaseDataProvider, LogTagBaseDataPro
   static StoreRef storeTags = StoreRef<int, LogTagModel>(STORE_TAGS);
   static StoreRef storeEntries = StoreRef<int, LogEntryModel>(STORE_ENTRIES);
 
-  Database _appDatabase;
+  Database? _appDatabase;
 
   Future<String> _getDatabasePath() async {
     //get application directory
@@ -37,12 +37,12 @@ class SembastDataProvider implements LogEntryBaseDataProvider, LogTagBaseDataPro
     if (this._appDatabase == null) {
       this._appDatabase = await _createDatabase();
     }
-    return this._appDatabase;
+    return this._appDatabase!;
   }
 
   Future<void> closeDatabase() async {
     if (this._appDatabase == null) {
-      await this._appDatabase.close();
+      await this._appDatabase!.close();
       this._appDatabase = null;
     }
   }
@@ -52,7 +52,7 @@ class SembastDataProvider implements LogEntryBaseDataProvider, LogTagBaseDataPro
   }
 
   Future<Map> getRecord(StoreRef store, int id) async {
-    return await store.record(id).get(await _getDatabase());
+    return await (store.record(id).get(await _getDatabase()));
   }
 
   Future<List> getAllRecords(StoreRef store) async {
@@ -60,7 +60,7 @@ class SembastDataProvider implements LogEntryBaseDataProvider, LogTagBaseDataPro
   }
 
   Future<int> addRecord(StoreRef store, Map<String, dynamic> json) async {
-    return await store.add(await _getDatabase(), json);
+    return await (store.add(await _getDatabase(), json));
   }
 
   Future<void> putRecord(StoreRef store, int id, Map<String, dynamic> json) async {

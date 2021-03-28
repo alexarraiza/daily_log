@@ -6,16 +6,16 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class LogEntryItem extends StatelessWidget {
   final LogEntryModel logEntry;
-  final Function(LogEntryModel entry) onTap;
-  final Function(LogEntryModel entry) onDelete;
+  final Function(LogEntryModel entry)? onTap;
+  final Function(LogEntryModel entry)? onDelete;
 
   const LogEntryItem(
     this.logEntry, {
-    Key key,
+    Key? key,
     this.onTap,
     this.onDelete,
-  })  : assert(logEntry != null),
-        super(key: key);
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return _buildFilledEntry(context);
@@ -30,7 +30,7 @@ class LogEntryItem extends StatelessWidget {
             icon: Icons.delete,
             caption: 'Delete',
             color: Colors.red,
-            onTap: () => onDelete(logEntry),
+            onTap: () => onDelete!(logEntry),
           )
       ],
       child: ListTile(
@@ -38,8 +38,8 @@ class LogEntryItem extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8, bottom: 8),
           child: Text(logEntry.entry),
         ),
-        trailing: (logEntry.tag != null) ? LogTag(tag: logEntry.tag) : null,
-        onTap: onTap != null ? () => onTap(logEntry) : null,
+        trailing: (logEntry.tag != null) ? LogTag(tag: logEntry.tag!) : null,
+        onTap: onTap != null ? () => onTap!(logEntry) : null,
       ),
     );
   }

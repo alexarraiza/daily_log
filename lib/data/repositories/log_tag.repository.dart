@@ -13,7 +13,7 @@ class LogTagRepository {
   }
 
   Future<LogTagModel> deleteLogTag(LogTagModel tag) async {
-    await this._logTagDataProvider.deleteLogTag(tag.id);
+    await this._logTagDataProvider.deleteLogTag(tag.id!);
     return tag;
   }
 
@@ -21,10 +21,10 @@ class LogTagRepository {
     if (tag.id == null) {
       int savedId = await this._logTagDataProvider.saveLogTag(tag.toJson());
       LogTagModel tagWithId = tag.copyWith(id: savedId);
-      await this._logTagDataProvider.updateLogTag(tagWithId.id, tagWithId.toJson());
+      await this._logTagDataProvider.updateLogTag(tagWithId.id!, tagWithId.toJson());
       return tagWithId;
     } else {
-      await this._logTagDataProvider.updateLogTag(tag.id, tag.toJson());
+      await this._logTagDataProvider.updateLogTag(tag.id!, tag.toJson());
       return tag;
     }
   }

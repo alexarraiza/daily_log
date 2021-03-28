@@ -75,12 +75,13 @@ class DailyLogApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateRoute: (settings) {
-        var routes = <String, WidgetBuilder>{
+        var routes = <String?, WidgetBuilder>{
           HomeScreen.routeName: (context) => HomeScreen(),
           SettingsScreen.routeName: (context) => SettingsScreen(),
           TagManagerScreen.routeName: (context) => TagManagerScreen(),
+          null: (context) => HomeScreen(),
         };
-        WidgetBuilder routeBuilder = routes[settings.name];
+        WidgetBuilder routeBuilder = routes[settings.name]!;
         return MaterialPageRoute(builder: (context) => routeBuilder(context), settings: settings);
       },
     );

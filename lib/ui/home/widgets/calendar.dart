@@ -11,16 +11,17 @@ class Calendar extends StatelessWidget {
 
   const Calendar(
     this._locale, {
-    Key key,
-    @required this.onDaySelected,
-    @required this.logEntries,
-    @required this.focusedDay,
+    Key? key,
+    /*required*/ required this.onDaySelected,
+    /*required*/ required this.logEntries,
+    /*required*/ required this.focusedDay,
   })  : assert(_locale != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     print(focusedDay);
+    return SizedBox.shrink();
     // return TableCalendar(
     //   startingDayOfWeek: StartingDayOfWeek.monday,
     //   locale: _locale,

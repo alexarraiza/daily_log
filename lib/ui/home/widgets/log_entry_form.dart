@@ -9,30 +9,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogEntryForm extends StatefulWidget {
-  final LogEntryModel logEntry;
+  final LogEntryModel? logEntry;
   final DateTime selectedDate;
 
   const LogEntryForm(
     this.selectedDate, {
-    Key key,
+    Key? key,
     this.logEntry,
   }) : super(key: key);
 
   @override
-  _LogEntryFormState createState() =>
-      _LogEntryFormState(logEntry, selectedDate);
+  _LogEntryFormState createState() => _LogEntryFormState(logEntry, selectedDate);
 }
 
 class _LogEntryFormState extends State<LogEntryForm> {
-  TextEditingController _entryTextController;
-  LogEntryModel currentEntry;
+  late TextEditingController _entryTextController;
+  late LogEntryModel currentEntry;
 
-  _LogEntryFormState(LogEntryModel entry, DateTime selectedDate) {
+  _LogEntryFormState(LogEntryModel? entry, DateTime selectedDate) {
     if (entry != null) {
       currentEntry = entry;
     } else {
-      currentEntry =
-          LogEntryModel('', DateTime.now(), DateTime.now(), selectedDate);
+      currentEntry = LogEntryModel('', DateTime.now(), DateTime.now(), selectedDate);
     }
   }
 
@@ -60,8 +58,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
               Navigator.pop(context);
             } else if (state is LogEntrySaveError) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    AppLocalizations.of(context).log_entry_form_save_error),
+                content: Text(AppLocalizations.of(context)!.log_entry_form_save_error),
                 behavior: SnackBarBehavior.floating,
               ));
             }
@@ -97,9 +94,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText:
-              AppLocalizations
-                  .of(context)
-                  .log_entry_form_entry_label,
+              AppLocalizations.of(context)!.log_entry_form_entry_label,
             ),
             expands: true,
             minLines: null,
@@ -144,20 +139,17 @@ class _LogEntryFormState extends State<LogEntryForm> {
                             color: contentColor,
                           ),
                           Text(
-                            AppLocalizations
-                                .of(context)
-                                .log_entry_form_add_tag,
+                            AppLocalizations.of(context)!.log_entry_form_add_tag,
                             style: TextStyle(color: contentColor),
                           )
                         ],
-                ),
-              )
-                  : LogTag(tag: currentEntry.tag),
-              onTap: () =>
-                  showDialog(
-                    context: context,
-                    builder: (context) => _buildAddTagDialog(),
-                  ),
+                      ),
+                    )
+                  : LogTag(tag: currentEntry.tag!),
+              onTap: () => showDialog(
+                context: context,
+                builder: (context) => _buildAddTagDialog(),
+              ),
             ),
           );
         } else {
@@ -190,7 +182,7 @@ class _LogEntryFormState extends State<LogEntryForm> {
         MaterialButton(
           onPressed: () => Navigator.pop(context),
           child: Text(
-            AppLocalizations.of(context).log_entry_form_back_button,
+            AppLocalizations.of(context)!.log_entry_form_back_button,
             style: TextStyle(color: Colors.red),
           ),
         ),
@@ -201,14 +193,12 @@ class _LogEntryFormState extends State<LogEntryForm> {
           onPressed: () {
             if (_entryTextController.text.isNotEmpty) {
               setState(() {
-                currentEntry =
-                    currentEntry.copyWith(entry: _entryTextController.text);
-                BlocProvider.of<LogEntryCubit>(context)
-                    .saveLogEntry(currentEntry);
+                currentEntry = currentEntry.copyWith(entry: _entryTextController.text);
+                BlocProvider.of<LogEntryCubit>(context).saveLogEntry(currentEntry);
               });
             }
           },
-          child: Text(AppLocalizations.of(context).log_entry_form_save_button),
+          child: Text(AppLocalizations.of(context)!.log_entry_form_save_button),
         )
       ],
     );

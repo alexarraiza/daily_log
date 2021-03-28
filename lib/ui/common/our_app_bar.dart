@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 buildOurAppBar(
   Widget title, {
-  List<Widget> actions,
-  Widget leading,
+  List<Widget>? actions,
+  Widget? leading,
 }) {
   return AppBar(
     brightness: Brightness.dark,

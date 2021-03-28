@@ -7,11 +7,11 @@ part 'log_entry.model.g.dart';
 
 @JsonSerializable()
 class LogEntryModel extends Equatable {
-  final int id;
+  final int? id;
   @JsonKey()
   final String entry;
   @JsonKey(toJson: tagToJson)
-  final LogTagModel tag;
+  final LogTagModel? tag;
   @JsonKey()
   final DateTime assignedDateTime;
   @JsonKey()
@@ -36,6 +36,7 @@ class LogEntryModel extends Equatable {
     entry,
     createDateTime,
     editDateTime,
+    assignedDateTime,
     id,
     tag,
   }) {
@@ -49,10 +50,10 @@ class LogEntryModel extends Equatable {
     );
   }
 
-  static Map<String, dynamic> tagToJson(LogTagModel tags) => tags?.toJson();
+  static Map<String, dynamic>? tagToJson(LogTagModel? tags) => tags?.toJson();
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [this.id, this.entry, this.tag, this.createDateTime, this.editDateTime, this.assignedDateTime];
 
   @override

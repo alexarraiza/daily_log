@@ -8,8 +8,8 @@ import '../../mocks/mock_log_tag_repository.dart';
 
 void main() {
   group('LogTagCubit', () {
-    LogTagCubit logTagCubit;
-    MockLogTagRepository mockLogTagRepository;
+    late LogTagCubit logTagCubit;
+    late MockLogTagRepository mockLogTagRepository;
 
     setUp(() {
       mockLogTagRepository = MockLogTagRepository();

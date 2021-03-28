@@ -47,31 +47,12 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.12)
-  - sqlite3 (3.32.3):
-    - sqlite3/common (= 3.32.3)
-  - sqlite3/common (3.32.3)
-  - sqlite3/fts5 (3.32.3):
-    - sqlite3/common
-  - sqlite3/json1 (3.32.3):
-    - sqlite3/common
-  - sqlite3/perf-threadsafe (3.32.3):
-    - sqlite3/common
-  - sqlite3/rtree (3.32.3):
-    - sqlite3/common
-  - sqlite3_flutter_libs (0.0.1):
-    - Flutter
-    - sqlite3 (~> 3.32.3)
-    - sqlite3/fts5
-    - sqlite3/json1
-    - sqlite3/perf-threadsafe
-    - sqlite3/rtree
 
 DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
-  - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/ios`)
 
 SPEC REPOS:
   trunk:
@@ -84,7 +65,6 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - PromisesObjC
-    - sqlite3
 
 EXTERNAL SOURCES:
   firebase_core:
@@ -95,8 +75,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
-  sqlite3_flutter_libs:
-    :path: ".symlinks/plugins/sqlite3_flutter_libs/ios"
 
 SPEC CHECKSUMS:
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
@@ -112,8 +90,6 @@ SPEC CHECKSUMS:
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  sqlite3: 8f7d2078ae27778699a622a94b853285793422a2
-  sqlite3_flutter_libs: 5651f8ff48e3b44d910863c4ea5916085b1b245f
 
 PODFILE CHECKSUM: 1daac7077a503681adcf450375975fe35dc3ffcf
 
