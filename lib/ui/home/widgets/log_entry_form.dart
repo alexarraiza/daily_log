@@ -168,9 +168,9 @@ class _LogEntryFormState extends State<LogEntryForm> {
           }),
       onDeselectPressed: () =>
           setState(() {
-            currentEntry = currentEntry.copyWith(tag: null);
-            Navigator.pop(context);
-          }),
+            currentEntry = currentEntry.copyWithNullTag();
+        Navigator.pop(context);
+      }),
       onBackPressed: () => Navigator.pop(context),
     );
   }

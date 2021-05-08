@@ -18,7 +18,7 @@ class DailyLogApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _buildProviders(
-      _buildApp(),
+      _buildApp(context),
     );
   }
 
@@ -62,28 +62,40 @@ class DailyLogApp extends StatelessWidget {
     );
   }
 
-  MaterialApp _buildApp() {
-    return MaterialApp(
-      title: 'DailyLog',
-      theme: ThemeData(
-        primaryColor: Colors.black,
-        primaryColorDark: Colors.grey,
-        primaryColorLight: Colors.white,
-        accentColor: Colors.black,
-      ),
-      home: HomeScreen(),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateRoute: (settings) {
-        var routes = <String?, WidgetBuilder>{
-          HomeScreen.routeName: (context) => HomeScreen(),
-          SettingsScreen.routeName: (context) => SettingsScreen(),
-          TagManagerScreen.routeName: (context) => TagManagerScreen(),
-          null: (context) => HomeScreen(),
-        };
-        WidgetBuilder routeBuilder = routes[settings.name]!;
-        return MaterialPageRoute(builder: (context) => routeBuilder(context), settings: settings);
+  Widget _buildApp(BuildContext buildContext) {
+    return GestureDetector(
+      onTap: () {
+        _unfocus(buildContext);
       },
+      child: MaterialApp(
+        title: 'DailyLog',
+        theme: ThemeData(
+          primaryColor: Colors.black,
+          primaryColorDark: Colors.grey,
+          primaryColorLight: Colors.white,
+          accentColor: Colors.black,
+        ),
+        home: HomeScreen(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        onGenerateRoute: (settings) {
+          var routes = <String?, WidgetBuilder>{
+            HomeScreen.routeName: (context) => HomeScreen(),
+            SettingsScreen.routeName: (context) => SettingsScreen(),
+            TagManagerScreen.routeName: (context) => TagManagerScreen(),
+            null: (context) => HomeScreen(),
+          };
+          WidgetBuilder routeBuilder = routes[settings.name]!;
+          return MaterialPageRoute(builder: (context) => routeBuilder(context), settings: settings);
+        },
+      ),
     );
+  }
+
+  void _unfocus(BuildContext buildContext) {
+    FocusScopeNode currentFocus = FocusScope.of(buildContext);
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      FocusManager.instance.primaryFocus!.unfocus();
+    }
   }
 }

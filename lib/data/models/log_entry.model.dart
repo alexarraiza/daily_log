@@ -50,6 +50,23 @@ class LogEntryModel extends Equatable {
     );
   }
 
+  LogEntryModel copyWithNullTag({
+    entry,
+    createDateTime,
+    editDateTime,
+    assignedDateTime,
+    id,
+  }) {
+    return LogEntryModel(
+      entry ?? this.entry,
+      createDateTime ?? this.createDateTime,
+      editDateTime ?? this.editDateTime,
+      assignedDateTime ?? this.assignedDateTime,
+      tag: null,
+      id: id ?? this.id,
+    );
+  }
+
   static Map<String, dynamic>? tagToJson(LogTagModel? tags) => tags?.toJson();
 
   @override

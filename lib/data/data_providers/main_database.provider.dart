@@ -15,10 +15,7 @@ import 'package:path_provider/path_provider.dart';
 part 'main_database.provider.g.dart';
 
 LazyDatabase _openConnection() {
-  // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
-    // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(join(dbFolder.path, 'main_database.sqlite'));
     return VmDatabase(file, logStatements: kDebugMode);
