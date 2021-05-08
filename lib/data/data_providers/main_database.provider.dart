@@ -34,16 +34,12 @@ class MainDatabase extends _$MainDatabase implements LogEntryBaseDataProvider, L
 
   @override
   Future<int> deleteLogEntry(int id) async {
-    return await (await delete(logEntries)
-          ..where((tbl) => tbl.id.equals(id)))
-        .go();
+    return await (delete(logEntries)..where((tbl) => tbl.id.equals(id))).go();
   }
 
   @override
   Future<int> deleteLogTag(int id) async {
-    return await (await delete(logTags)
-          ..where((tbl) => tbl.id.equals(id)))
-        .go();
+    return await (delete(logTags)..where((tbl) => tbl.id.equals(id))).go();
   }
 
   @override
@@ -102,9 +98,7 @@ class MainDatabase extends _$MainDatabase implements LogEntryBaseDataProvider, L
 
   @override
   Future<LogTagModel?> fetchLogTagById(int id) async {
-    LogTag? tagFetched = await (await select(logTags)
-          ..where((tbl) => tbl.id.equals(id)))
-        .getSingleOrNull();
+    LogTag? tagFetched = await (select(logTags)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
     if (tagFetched == null) {
       return null;
     } else {
