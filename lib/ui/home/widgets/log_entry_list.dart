@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class LogEntryList extends StatelessWidget {
   const LogEntryList(this._list,
-      {Key key, this.onTapItem, this.bottomPadding = true, this.shrinkWrap = true, this.onDeleteItem})
+      {Key? key, this.onTapItem, this.bottomPadding = true, this.shrinkWrap = true, this.onDeleteItem})
       : super(key: key);
 
   final List<LogEntryModel> _list;
-  final Function(LogEntryModel entry) onTapItem;
-  final Function(LogEntryModel entry) onDeleteItem;
+  final Function(LogEntryModel entry)? onTapItem;
+  final Function(LogEntryModel entry)? onDeleteItem;
   final bool bottomPadding;
   final bool shrinkWrap;
 

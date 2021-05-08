@@ -1,24 +1,24 @@
+import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:daily_log/logic/log_tag/log_tag_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogTagForm extends StatefulWidget {
-  final LogTagModel tag;
+  final LogTagModel? tag;
 
-  const LogTagForm({Key key, this.tag}) : super(key: key);
+  const LogTagForm({Key? key, this.tag}) : super(key: key);
 
   @override
   _LogTagFormState createState() => _LogTagFormState(tag);
 }
 
 class _LogTagFormState extends State<LogTagForm> {
-  TextEditingController _tagTextController;
-  LogTagModel currentTag;
+  late TextEditingController _tagTextController;
+  late LogTagModel currentTag;
 
-  _LogTagFormState(LogTagModel tag) {
+  _LogTagFormState(LogTagModel? tag) {
     if (tag != null) {
       currentTag = tag;
     } else {
@@ -101,7 +101,7 @@ class _LogTagFormState extends State<LogTagForm> {
                 controller: _tagTextController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context).log_tag_form_input_label,
+                  labelText: AppLocalizations.of(context)!.log_tag_form_input_label,
                 ),
                 minLines: 1,
                 maxLines: 1,
@@ -122,14 +122,12 @@ class _LogTagFormState extends State<LogTagForm> {
         MaterialButton(
           onPressed: () => Navigator.pop(context),
           child: Text(
-            AppLocalizations.of(context).log_tag_form_back_button,
+            AppLocalizations.of(context)!.log_tag_form_back_button,
             style: TextStyle(color: Colors.red),
           ),
         ),
         ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).accentColor)),
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor)),
           onPressed: () {
             if (_tagTextController.text.isNotEmpty) {
               setState(() {
@@ -138,7 +136,7 @@ class _LogTagFormState extends State<LogTagForm> {
               });
             }
           },
-          child: Text(AppLocalizations.of(context).log_tag_form_save_button),
+          child: Text(AppLocalizations.of(context)!.log_tag_form_save_button),
         )
       ],
     );
@@ -149,8 +147,7 @@ class _LogTagFormState extends State<LogTagForm> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title:
-            Text(AppLocalizations.of(context).log_tag_form_color_picker_title),
+        title: Text(AppLocalizations.of(context)!.log_tag_form_color_picker_title),
         content: SingleChildScrollView(
           child: BlockPicker(
             pickerColor: pickerColor,
@@ -163,11 +160,9 @@ class _LogTagFormState extends State<LogTagForm> {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text(
-                AppLocalizations.of(context).log_tag_form_color_picker_button),
+            child: Text(AppLocalizations.of(context)!.log_tag_form_color_picker_button),
             onPressed: () {
-              setState(
-                  () => currentTag = currentTag.copyWith(color: pickerColor));
+              setState(() => currentTag = currentTag.copyWith(color: pickerColor));
               Navigator.of(context).pop();
             },
           ),

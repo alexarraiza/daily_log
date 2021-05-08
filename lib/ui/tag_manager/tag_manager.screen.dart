@@ -33,7 +33,7 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
         }
       },
       child: Scaffold(
-        appBar: buildOurAppBar(Text(AppLocalizations.of(context).tag_manager_screen_title)),
+        appBar: buildOurAppBar(Text(AppLocalizations.of(context)!.tag_manager_screen_title)),
         body: BlocBuilder<LogTagsCubit, LogTagsState>(
           builder: (context, state) {
             if (state is LogTagsFetched) {
@@ -44,13 +44,13 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
                 shrinkWrap: false,
               );
             } else {
-              return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));
+              return Center(child: Text(AppLocalizations.of(context)!.placeholder_unexpected_state));
             }
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => _addOrEditTag(null),
-          label: Text(AppLocalizations.of(context).tag_manager_screen_add_tag),
+          label: Text(AppLocalizations.of(context)!.tag_manager_screen_add_tag),
           icon: Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -58,7 +58,7 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
     );
   }
 
-  void _addOrEditTag(LogTagModel tag) {
+  void _addOrEditTag(LogTagModel? tag) {
     showDialog(
       context: context,
       builder: (context) => Stack(

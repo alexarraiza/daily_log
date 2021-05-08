@@ -1,4 +1,4 @@
-import 'package:daily_log/data/data_providers/sembast.provider.dart';
+import 'package:daily_log/data/data_providers/main_database.provider.dart';
 import 'package:daily_log/data/repositories/log_entry.repository.dart';
 import 'package:daily_log/data/repositories/log_tag.repository.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
@@ -26,16 +26,16 @@ class DailyLogApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(
-          create: (context) => SembastDataProvider(),
+          create: (context) => MainDatabase(),
         ),
       ],
       child: MultiRepositoryProvider(
         providers: [
           RepositoryProvider(
-            create: (context) => LogEntryRepository(context.read<SembastDataProvider>()),
+            create: (context) => LogEntryRepository(context.read<MainDatabase>()),
           ),
           RepositoryProvider(
-            create: (context) => LogTagRepository(context.read<SembastDataProvider>()),
+            create: (context) => LogTagRepository(context.read<MainDatabase>()),
           ),
         ],
         child: MultiBlocProvider(
@@ -75,12 +75,13 @@ class DailyLogApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateRoute: (settings) {
-        var routes = <String, WidgetBuilder>{
+        var routes = <String?, WidgetBuilder>{
           HomeScreen.routeName: (context) => HomeScreen(),
           SettingsScreen.routeName: (context) => SettingsScreen(),
           TagManagerScreen.routeName: (context) => TagManagerScreen(),
+          null: (context) => HomeScreen(),
         };
-        WidgetBuilder routeBuilder = routes[settings.name];
+        WidgetBuilder routeBuilder = routes[settings.name]!;
         return MaterialPageRoute(builder: (context) => routeBuilder(context), settings: settings);
       },
     );

@@ -2,59 +2,57 @@ import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+// TODO: change it with flutter_calendar_carousel
+
 class Calendar extends StatelessWidget {
   final dynamic _locale;
-  final CalendarController _calendarController;
-  final DateTime initialDateSelected;
-  final Function(DateTime day, List events, List holidays) onDaySelected;
+  final DateTime focusedDay;
+  final Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
   final List<LogEntryModel> logEntries;
 
   const Calendar(
-    this._locale,
-    this._calendarController, {
-    Key key,
-    @required this.onDaySelected,
-    @required this.logEntries,
-    @required this.initialDateSelected,
-  })  : assert(_locale != null),
-        assert(_calendarController != null),
+    this._locale, {
+    Key? key,
+    required this.onDaySelected,
+    required this.logEntries,
+    required this.focusedDay,
+  })   : assert(_locale != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(focusedDay);
     return TableCalendar(
       startingDayOfWeek: StartingDayOfWeek.monday,
       locale: _locale,
       headerStyle: HeaderStyle(
         formatButtonVisible: false,
-        centerHeaderTitle: true,
+        titleCentered: true,
         leftChevronIcon: Icon(Icons.chevron_left, color: Colors.white),
         rightChevronIcon: Icon(Icons.chevron_right, color: Colors.white),
         titleTextStyle: TextStyle(color: Colors.white),
       ),
-      initialCalendarFormat: CalendarFormat.week,
-      calendarController: _calendarController,
+      calendarFormat: CalendarFormat.week,
+      selectedDayPredicate: (day) => isSameDay(focusedDay, day),
       onDaySelected: onDaySelected,
       calendarStyle: CalendarStyle(
-        selectedColor: Theme.of(context).primaryColorLight.withOpacity(.5),
-        todayColor: Theme.of(context).primaryColorDark.withOpacity(.2),
-        weekdayStyle: TextStyle(color: Colors.grey),
-        selectedStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        todayStyle: TextStyle(color: Colors.grey),
-        markersColor: Colors.lightBlueAccent,
+        defaultTextStyle: TextStyle(color: Colors.grey),
+        // selectedDecoration: Theme.of(context).primaryColorLight.withOpacity(.5),
+        // todayDecoration: Theme.of(context).primaryColorDark.withOpacity(.2),
+        selectedTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        todayTextStyle: TextStyle(color: Colors.grey),
+        // markerDecoration: Colors.lightBlueAccent,
       ),
-      initialSelectedDay: initialDateSelected ?? DateTime.now(),
-      events: _buildEvents(),
+      eventLoader: _buildEvents,
+      lastDay: DateTime.now().add(Duration(days: 30)),
+      firstDay: DateTime.now().subtract(Duration(days: 90)),
+      focusedDay: focusedDay,
     );
   }
 
-  Map<DateTime, List> _buildEvents() {
-    Map<DateTime, List> events = Map();
-    this.logEntries.forEach((element) {
-      var existing = events[element.assignedDateTime];
-      events[element.assignedDateTime] = []..add(element);
-      if (existing != null) events[element.assignedDateTime].add(existing);
-    });
+  List _buildEvents(DateTime day) {
+    print('events: ${day.toString()}');
+    List events = this.logEntries.where((element) => element.assignedDateTime.difference(day).inDays == 0).toList();
     return events;
   }
 }

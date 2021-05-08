@@ -13,10 +13,10 @@ class LogEntryAddTagDialog extends StatelessWidget {
   final Function() onBackPressed;
 
   const LogEntryAddTagDialog({
-    Key key,
-    @required this.onTagPressed,
-    @required this.onDeselectPressed,
-    @required this.onBackPressed,
+    Key? key,
+    required this.onTagPressed,
+    required this.onDeselectPressed,
+    required this.onBackPressed,
   }) : super(key: key);
 
   @override
@@ -62,8 +62,7 @@ class LogEntryAddTagDialog extends StatelessWidget {
                         color: contentColor,
                       ),
                       Text(
-                        AppLocalizations.of(context)
-                            .log_entry_form_add_tag_dialog_new_tag,
+                        AppLocalizations.of(context)!.log_entry_form_add_tag_dialog_new_tag,
                         style: TextStyle(color: contentColor),
                       )
                     ],
@@ -75,16 +74,14 @@ class LogEntryAddTagDialog extends StatelessWidget {
                   MaterialButton(
                     onPressed: () => onDeselectPressed(),
                     child: Text(
-                      AppLocalizations.of(context)
-                          .log_entry_form_add_tag_dialog_deselect,
+                      AppLocalizations.of(context)!.log_entry_form_add_tag_dialog_deselect,
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () => onBackPressed(),
                     child: Text(
-                      AppLocalizations.of(context)
-                          .log_entry_form_add_tag_dialog_ok,
+                      AppLocalizations.of(context)!.log_entry_form_add_tag_dialog_ok,
                     ),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(

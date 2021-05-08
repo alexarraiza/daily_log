@@ -6,6 +6,7 @@ import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
 import 'package:daily_log/logic/log_entries_by_date/log_entries_by_date_cubit.dart';
 import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/ui/common/our_app_bar.dart';
+import 'package:daily_log/ui/home/widgets/calendar.dart';
 import 'package:daily_log/ui/home/widgets/log_entry_form.dart';
 import 'package:daily_log/ui/home/widgets/log_entry_list.dart';
 import 'package:daily_log/ui/settings/settings.screen.dart';
@@ -13,9 +14,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:table_calendar/table_calendar.dart';
-
-import 'widgets/calendar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'home/';
@@ -25,19 +23,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  CalendarController _calendarController;
-
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
     BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
-  }
-
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
   }
 
   @override
@@ -50,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: buildOurAppBar(
-          Text(AppLocalizations.of(context).home_screen_title),
+          Text(AppLocalizations.of(context)!.home_screen_title),
           actions: [
             IconButton(
               icon: Icon(Icons.settings),
@@ -61,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: _buildBody(),
         floatingActionButton: FloatingActionButton.extended(
-          label: Text(AppLocalizations.of(context).home_screen_new_entry),
+          label: Text(AppLocalizations.of(context)!.home_screen_new_entry),
           icon: Icon(Icons.add),
           onPressed: () => _addOrEditEntry(null),
         ),
@@ -76,22 +65,25 @@ class _HomeScreenState extends State<HomeScreen> {
         return BlocBuilder<LogEntriesByDateCubit, LogEntriesByDateState>(
           builder: (context, filteredEntriesState) {
             if (entriesState is LogEntriesFetched && filteredEntriesState is LogEntriesByDateLoaded) {
+              print(BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected());
               return Material(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Material(
                       color: Colors.black,
                       elevation: 2,
                       child: Calendar(
                         Platform.localeName,
-                        _calendarController,
-                        onDaySelected: (day, events, holidays) =>
-                            BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(day),
-                        initialDateSelected: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+                        onDaySelected: (selectedDay, focusedDay) =>
+                            BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(focusedDay),
+                        focusedDay: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
                         logEntries: entriesState.logEntries,
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: LogEntryList(
                         filteredEntriesState.entries,
                         onTapItem: _addOrEditEntry,
@@ -103,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             } else {
-              return Center(child: Text(AppLocalizations.of(context).placeholder_unexpected_state));
+              return Center(child: Text(AppLocalizations.of(context)!.placeholder_unexpected_state));
             }
           },
         );
@@ -111,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _addOrEditEntry(LogEntryModel entry) {
+  void _addOrEditEntry(LogEntryModel? entry) {
     showDialog(
       context: context,
       builder: (context) => Stack(
@@ -146,13 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
           return Padding(
             padding: const EdgeInsets.all(6),
             child: IconButton(
-                icon: Icon(
-                  Icons.today_outlined,
-                  color: Colors.red,
-                ),
-                onPressed: () {
-                  _calendarController.setSelectedDay(DateTime.now(), runCallback: true);
-                }),
+              icon: Icon(
+                Icons.today_outlined,
+                color: Colors.red,
+              ),
+              onPressed: () => BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(DateTime.now()),
+            ),
           );
         } else {
           return SizedBox.shrink();

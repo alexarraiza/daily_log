@@ -10,14 +10,14 @@ part 'log_entries_by_date_state.dart';
 class LogEntriesByDateCubit extends Cubit<LogEntriesByDateState> {
   final LogEntriesCubit _logEntriesCubit;
 
-  StreamSubscription _logEntriesSubscription;
+  late StreamSubscription _logEntriesSubscription;
   List<LogEntryModel> _entries = const [];
   DateTime _dateTime = DateTime.now();
 
   LogEntriesByDateCubit(this._logEntriesCubit) : super(LogEntriesByDateInitial()) {
     if (_logEntriesCubit.state is LogEntriesFetched)
       _entries = (_logEntriesCubit.state as LogEntriesFetched).logEntries;
-    _logEntriesSubscription = _logEntriesCubit.listen((state) {
+    _logEntriesSubscription = _logEntriesCubit.stream.listen((state) {
       if (state is LogEntriesFetched) {
         updatedEntries(state.logEntries);
       }

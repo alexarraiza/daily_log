@@ -9,7 +9,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildOurAppBar(Text(AppLocalizations.of(context).settings_screen_title)),
+      appBar: buildOurAppBar(Text(AppLocalizations.of(context)!.settings_screen_title)),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -27,13 +27,13 @@ class SettingsScreen extends StatelessWidget {
       children: [
         ListTile(
           title: Text(
-            AppLocalizations.of(context).settings_screen_app_settings_section,
+            AppLocalizations.of(context)!.settings_screen_app_settings_section,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         ListTile(
           leading: Icon(Icons.local_offer_outlined),
-          title: Text(AppLocalizations.of(context).settings_screen_manage_tags),
+          title: Text(AppLocalizations.of(context)!.settings_screen_manage_tags),
           trailing: Icon(Icons.chevron_right),
           onTap: () => Navigator.pushNamed(context, TagManagerScreen.routeName),
         ),
@@ -48,13 +48,13 @@ class SettingsScreen extends StatelessWidget {
       children: [
         ListTile(
           title: Text(
-            AppLocalizations.of(context).settings_screen_about_section,
+            AppLocalizations.of(context)!.settings_screen_about_section,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         ListTile(
           leading: Icon(Icons.help_outline),
-          title: Text(AppLocalizations.of(context).settings_screen_about_this_app),
+          title: Text(AppLocalizations.of(context)!.settings_screen_about_this_app),
           onTap: () => showAboutDialog(
             context: context,
           ),

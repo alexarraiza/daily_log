@@ -9,7 +9,7 @@ import '../../mocks/mock_log_entry_repository.dart';
 void main() {
   group('LogEntriesByDateCubit', () {
     LogEntriesCubit logEntriesCubit;
-    LogEntriesByDateCubit logEntriesByDateCubit;
+    late LogEntriesByDateCubit logEntriesByDateCubit;
     MockLogEntryRepository mockLogEntryRepository;
 
     setUp(() {
@@ -28,7 +28,7 @@ void main() {
         'emits LogEntriesByDateLoaded',
         build: () => logEntriesByDateCubit,
         act: (LogEntriesByDateCubit cubit) => cubit.getEntriesByDate(DateTime.now()),
-        expect: [LogEntriesByDateLoaded],
+        expect: () => [LogEntriesByDateLoaded],
       );
     });
 
