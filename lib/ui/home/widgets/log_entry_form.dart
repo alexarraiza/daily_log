@@ -1,5 +1,5 @@
-import 'package:badges/badges.dart';
 import 'package:daily_log/data/models/log_entry.model.dart';
+import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
 import 'package:daily_log/ui/common/log_tag.dart';
@@ -8,14 +8,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+openLogEntryBottomsheet(BuildContext context,
+        {required DateTime selectedDate, LogEntryModel? logEntry, Function()? whenComplete}) =>
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      isScrollControlled: true,
+      elevation: 0,
+      context: context,
+      builder: (context) => LogEntryForm(
+        selectedDate: selectedDate,
+        logEntry: logEntry,
+      ),
+    ).whenComplete(
+      whenComplete ?? () {},
+    );
+
 class LogEntryForm extends StatefulWidget {
   final LogEntryModel? logEntry;
   final DateTime selectedDate;
 
-  const LogEntryForm(
-    this.selectedDate, {
+  const LogEntryForm({
     Key? key,
     this.logEntry,
+    required this.selectedDate,
   }) : super(key: key);
 
   @override
@@ -49,34 +69,32 @@ class _LogEntryFormState extends State<LogEntryForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-        child: BlocListener<LogEntryCubit, LogEntryState>(
-          listener: (context, state) {
-            if (state is LogEntrySaved) {
-              Navigator.pop(context);
-            } else if (state is LogEntrySaveError) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(AppLocalizations.of(context)!.log_entry_form_save_error),
-                behavior: SnackBarBehavior.floating,
-              ));
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-                child: Padding(
+    return BlocListener<LogEntryCubit, LogEntryState>(
+      listener: (context, state) {
+        if (state is LogEntrySaved) {
+          Navigator.pop(context);
+        } else if (state is LogEntrySaveError) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context)!.log_entry_form_save_error),
+            behavior: SnackBarBehavior.floating,
+          ));
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
               padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildForm(),
-                  _buildButtonBar(),
-                ],
-              ),
-            )),
-          ),
+              child: _buildForm(),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: _buildButtonBar(),
+            ),
+          ],
         ),
       ),
     );
@@ -92,9 +110,8 @@ class _LogEntryFormState extends State<LogEntryForm> {
           child: TextField(
             controller: _entryTextController,
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText:
-              AppLocalizations.of(context)!.log_entry_form_entry_label,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+              labelText: AppLocalizations.of(context)!.log_entry_form_entry_label,
             ),
             expands: true,
             minLines: null,
@@ -112,45 +129,25 @@ class _LogEntryFormState extends State<LogEntryForm> {
     return BlocBuilder<LogTagsCubit, LogTagsState>(
       builder: (context, state) {
         if (state is LogTagsFetched) {
-          var contentColor =
-          Theme
-              .of(context)
-              .primaryColorLight
-              .computeLuminance() > 0.5
-              ? Colors.black
-              : Colors.white;
           return Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 8),
-            child: InkWell(
-              child: currentEntry.tag == null
-                  ? Badge(
-                animationType: BadgeAnimationType.fade,
-                shape: BadgeShape.square,
-                borderRadius: BorderRadius.circular(4),
-                badgeColor: Theme
-                    .of(context)
-                    .primaryColorLight,
-                badgeContent: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 12,
-                            color: contentColor,
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.log_entry_form_add_tag,
-                            style: TextStyle(color: contentColor),
-                          )
-                        ],
-                      ),
-                    )
-                  : LogTag(tag: currentEntry.tag!),
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => _buildAddTagDialog(),
-              ),
-            ),
+            child: currentEntry.tag == null
+                ? LogTag(
+                    leading: Icons.add,
+                    tag: LogTagModel(AppLocalizations.of(context)!.log_entry_form_add_tag,
+                        Theme.of(context).primaryColor, DateTime.now(), DateTime.now()),
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (context) => _buildAddTagDialog(),
+                    ),
+                  )
+                : LogTag(
+                    tag: currentEntry.tag!,
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (context) => _buildAddTagDialog(),
+                    ),
+                  ),
           );
         } else {
           return SizedBox.shrink();
@@ -161,46 +158,42 @@ class _LogEntryFormState extends State<LogEntryForm> {
 
   Widget _buildAddTagDialog() {
     return LogEntryAddTagDialog(
-      onTagPressed: (tag) =>
-          setState(() {
-            currentEntry = currentEntry.copyWith(tag: tag);
-            Navigator.pop(context);
-          }),
-      onDeselectPressed: () =>
-          setState(() {
-            currentEntry = currentEntry.copyWithNullTag();
+      onTagPressed: (tag) => setState(() {
+        currentEntry = currentEntry.copyWith(tag: tag);
+        Navigator.pop(context);
+      }),
+      onDeselectPressed: () => setState(() {
+        currentEntry = currentEntry.copyWithNullTag();
         Navigator.pop(context);
       }),
       onBackPressed: () => Navigator.pop(context),
     );
   }
 
-  ButtonBar _buildButtonBar() {
-    return ButtonBar(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        MaterialButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            AppLocalizations.of(context)!.log_entry_form_back_button,
-            style: TextStyle(color: Colors.red),
+  Widget _buildButtonBar() {
+    return TextButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        elevation: MaterialStateProperty.all(0),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
-        ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).accentColor)),
-          onPressed: () {
-            if (_entryTextController.text.isNotEmpty) {
-              setState(() {
-                currentEntry = currentEntry.copyWith(entry: _entryTextController.text);
-                BlocProvider.of<LogEntryCubit>(context).saveLogEntry(currentEntry);
-              });
-            }
-          },
-          child: Text(AppLocalizations.of(context)!.log_entry_form_save_button),
-        )
-      ],
+      ),
+      onPressed: () {
+        if (_entryTextController.text.isNotEmpty) {
+          setState(() {
+            currentEntry = currentEntry.copyWith(entry: _entryTextController.text);
+            BlocProvider.of<LogEntryCubit>(context).saveLogEntry(currentEntry);
+          });
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Text(AppLocalizations.of(context)!.log_entry_form_save_button),
+      ),
     );
   }
 }

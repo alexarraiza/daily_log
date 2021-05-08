@@ -5,6 +5,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+openLogTagBottomsheet(BuildContext context, {LogTagModel? tag, Function()? whenComplete}) => showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      elevation: 0,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => LogTagForm(
+        tag: tag,
+      ),
+    ).whenComplete(
+      whenComplete ?? () {},
+    );
+
 class LogTagForm extends StatefulWidget {
   final LogTagModel? tag;
 
@@ -47,34 +64,33 @@ class _LogTagFormState extends State<LogTagForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-        child: BlocListener<LogTagCubit, LogTagState>(
-          listener: (context, state) {
-            if (state is LogTagSaved) {
-              Navigator.pop(context);
-            } else if (state is LogTagSaveError) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('error'),
-                behavior: SnackBarBehavior.floating,
-              ));
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: Padding(
+    return BlocListener<LogTagCubit, LogTagState>(
+      listener: (context, state) {
+        if (state is LogTagSaved) {
+          Navigator.pop(context);
+        } else if (state is LogTagSaveError) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('error'),
+            behavior: SnackBarBehavior.floating,
+          ));
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(12),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildForm(),
-                    _buildButtonBar(),
-                  ],
-                ),
+                child: _buildForm(),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: _buildButtonBar(),
+              ),
+            ],
           ),
         ),
       ),
@@ -100,7 +116,7 @@ class _LogTagFormState extends State<LogTagForm> {
               child: TextField(
                 controller: _tagTextController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
                   labelText: AppLocalizations.of(context)!.log_tag_form_input_label,
                 ),
                 minLines: 1,
@@ -115,30 +131,30 @@ class _LogTagFormState extends State<LogTagForm> {
     );
   }
 
-  ButtonBar _buildButtonBar() {
-    return ButtonBar(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        MaterialButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            AppLocalizations.of(context)!.log_tag_form_back_button,
-            style: TextStyle(color: Colors.red),
+  Widget _buildButtonBar() {
+    return TextButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        elevation: MaterialStateProperty.all(0),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
-        ElevatedButton(
-          style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor)),
-          onPressed: () {
-            if (_tagTextController.text.isNotEmpty) {
-              setState(() {
-                currentTag = currentTag.copyWith(tag: _tagTextController.text);
-                BlocProvider.of<LogTagCubit>(context).saveLogTag(currentTag);
-              });
-            }
-          },
-          child: Text(AppLocalizations.of(context)!.log_tag_form_save_button),
-        )
-      ],
+      ),
+      onPressed: () {
+        if (_tagTextController.text.isNotEmpty) {
+          setState(() {
+            currentTag = currentTag.copyWith(tag: _tagTextController.text);
+            BlocProvider.of<LogTagCubit>(context).saveLogTag(currentTag);
+          });
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Text(AppLocalizations.of(context)!.log_tag_form_save_button),
+      ),
     );
   }
 

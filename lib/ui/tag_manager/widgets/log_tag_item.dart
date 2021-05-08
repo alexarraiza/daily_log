@@ -29,8 +29,10 @@ class LogTagItem extends StatelessWidget {
           )
       ],
       child: ListTile(
-        leading: LogTag(tag: tag),
-        onTap: onTap != null ? () => onTap!(tag) : null,
+        leading: LogTag(
+          tag: tag,
+          onTap: onTap != null ? () => onTap!(tag) : null,
+        ),
       ),
     );
   }

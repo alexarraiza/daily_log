@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
@@ -104,28 +103,38 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _addOrEditEntry(LogEntryModel? entry) {
-    showDialog(
-      context: context,
-      builder: (context) => Stack(
-        children: [
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-              child: Container(
-                color: Colors.transparent,
-              ),
-            ),
-          ),
-          LogEntryForm(
-            BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
-            logEntry: entry,
-          ),
-        ],
-      ),
-    ).then((_) {
-      BlocProvider.of<LogEntryCubit>(context).resetState();
-      BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
-    });
+    openLogEntryBottomsheet(
+      context,
+      selectedDate: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+      logEntry: entry,
+      whenComplete: () {
+        BlocProvider.of<LogEntryCubit>(context).resetState();
+        BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
+      },
+    );
+
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => Stack(
+    //     children: [
+    //       Positioned.fill(
+    //         child: BackdropFilter(
+    //           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+    //           child: Container(
+    //             color: Colors.transparent,
+    //           ),
+    //         ),
+    //       ),
+    //       LogEntryForm(
+    //         BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+    //         logEntry: entry,
+    //       ),
+    //     ],
+    //   ),
+    // ).then((_) {
+    //   BlocProvider.of<LogEntryCubit>(context).resetState();
+    //   BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
+    // });
   }
 
   Widget _buildTodayButton() {

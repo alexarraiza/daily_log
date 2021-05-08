@@ -1,6 +1,6 @@
-import 'package:badges/badges.dart';
 import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:daily_log/logic/log_tags/log_tags_cubit.dart';
+import 'package:daily_log/ui/common/log_tag.dart';
 import 'package:daily_log/ui/tag_manager/tag_manager.screen.dart';
 import 'package:daily_log/ui/tag_manager/widgets/log_tag_list.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +21,6 @@ class LogEntryAddTagDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var contentColor =
-        Theme.of(context).primaryColorLight.computeLuminance() > 0.5
-            ? Colors.black
-            : Colors.white;
-
     return Dialog(
       child: BlocBuilder<LogTagsCubit, LogTagsState>(
         builder: (context, state) {
@@ -44,29 +39,12 @@ class LogEntryAddTagDialog extends StatelessWidget {
                   height: 0,
                 ),
               ListTile(
-                onTap: () =>
-                    Navigator.pushNamed(context, TagManagerScreen.routeName)
-                        .then((value) =>
-                            BlocProvider.of<LogTagsCubit>(context).fetchTags()),
-                leading: Badge(
-                  shape: BadgeShape.square,
-                  borderRadius: BorderRadius.circular(4),
-                  badgeColor: Theme.of(context).primaryColorLight,
-                  toAnimate: false,
-                  badgeContent: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.add,
-                        size: 12,
-                        color: contentColor,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.log_entry_form_add_tag_dialog_new_tag,
-                        style: TextStyle(color: contentColor),
-                      )
-                    ],
-                  ),
+                leading: LogTag(
+                  leading: Icons.add,
+                  tag: LogTagModel(AppLocalizations.of(context)!.log_entry_form_add_tag, Theme.of(context).primaryColor,
+                      DateTime.now(), DateTime.now()),
+                  onTap: () => Navigator.pushNamed(context, TagManagerScreen.routeName)
+                      .then((value) => BlocProvider.of<LogTagsCubit>(context).fetchTags()),
                 ),
               ),
               ButtonBar(

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:daily_log/data/models/log_tag.model.dart';
 import 'package:daily_log/logic/log_tag/log_tag_cubit.dart';
@@ -59,26 +58,35 @@ class _TagManagerScreenState extends State<TagManagerScreen> {
   }
 
   void _addOrEditTag(LogTagModel? tag) {
-    showDialog(
-      context: context,
-      builder: (context) => Stack(
-        children: [
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-              child: Container(
-                color: Colors.transparent,
-              ),
-            ),
-          ),
-          LogTagForm(
-            tag: tag,
-          ),
-        ],
-      ),
-    ).then((_) {
-      BlocProvider.of<LogTagCubit>(context).resetState();
-      BlocProvider.of<LogTagsCubit>(context).fetchTags();
-    });
+    openLogTagBottomsheet(
+      context,
+      tag: tag,
+      whenComplete: () {
+        BlocProvider.of<LogTagCubit>(context).resetState();
+        BlocProvider.of<LogTagsCubit>(context).fetchTags();
+      },
+    );
+
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => Stack(
+    //     children: [
+    //       Positioned.fill(
+    //         child: BackdropFilter(
+    //           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+    //           child: Container(
+    //             color: Colors.transparent,
+    //           ),
+    //         ),
+    //       ),
+    //       LogTagForm(
+    //         tag: tag,
+    //       ),
+    //     ],
+    //   ),
+    // ).then((_) {
+    //   BlocProvider.of<LogTagCubit>(context).resetState();
+    //   BlocProvider.of<LogTagsCubit>(context).fetchTags();
+    // });
   }
 }
