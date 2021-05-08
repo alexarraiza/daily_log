@@ -79,7 +79,7 @@ class MainDatabase extends _$MainDatabase implements LogEntryBaseDataProvider, L
       tag: Value(entry.tag?.id),
     );
 
-    if (entry.id != null) entryToInsert = entryToInsert.copyWith(id: Value(entry.id));
+    if (entry.id != null) entryToInsert = entryToInsert.copyWith(id: Value(entry.id!));
     return await into(logEntries).insertOnConflictUpdate(entryToInsert);
   }
 
@@ -92,7 +92,7 @@ class MainDatabase extends _$MainDatabase implements LogEntryBaseDataProvider, L
       color: LogTagModel.colorToJson(tag.color),
     );
 
-    if (tag.id != null) tagToInsert = tagToInsert.copyWith(id: Value(tag.id));
+    if (tag.id != null) tagToInsert = tagToInsert.copyWith(id: Value(tag.id!));
     return await into(logTags).insertOnConflictUpdate(tagToInsert);
   }
 
