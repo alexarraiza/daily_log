@@ -6,7 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class LogTagItem extends StatelessWidget {
   const LogTagItem({
     Key? key,
-    /*required*/ required this.tag,
+    required this.tag,
     this.onTap,
     this.onDelete,
   }) : super(key: key);

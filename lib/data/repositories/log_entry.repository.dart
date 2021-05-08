@@ -7,20 +7,11 @@ class LogEntryRepository {
   LogEntryRepository(this._logEntryDataProvider);
 
   Future<List<LogEntryModel>> fetchLogEntries() async {
-    var entriesResult = await this._logEntryDataProvider.fetchLogEntries();
-    return entriesResult.map((entry) => LogEntryModel.fromJson(entry)).toList();
+    return await this._logEntryDataProvider.fetchLogEntries();
   }
 
   Future<LogEntryModel> saveLogEntry(LogEntryModel logEntry) async {
-    if (logEntry.id == null) {
-      int savedId = await this._logEntryDataProvider.saveLogEntry(logEntry.toJson());
-      LogEntryModel entryWithId = logEntry.copyWith(id: savedId);
-      await this._logEntryDataProvider.updateLogEntry(entryWithId.id!, entryWithId.toJson());
-      return entryWithId;
-    } else {
-      await this._logEntryDataProvider.updateLogEntry(logEntry.id!, logEntry.toJson());
-      return logEntry;
-    }
+    return logEntry.copyWith(id: await this._logEntryDataProvider.saveLogEntry(logEntry));
   }
 
   Future<LogEntryModel> deleteLogEntry(LogEntryModel logEntry) async {

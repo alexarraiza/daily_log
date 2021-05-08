@@ -14,9 +14,9 @@ class LogEntryAddTagDialog extends StatelessWidget {
 
   const LogEntryAddTagDialog({
     Key? key,
-    /*required*/ required this.onTagPressed,
-    /*required*/ required this.onDeselectPressed,
-    /*required*/ required this.onBackPressed,
+    required this.onTagPressed,
+    required this.onDeselectPressed,
+    required this.onBackPressed,
   }) : super(key: key);
 
   @override

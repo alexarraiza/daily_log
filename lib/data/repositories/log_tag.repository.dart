@@ -7,9 +7,7 @@ class LogTagRepository {
   LogTagRepository(this._logTagDataProvider);
 
   Future<List<LogTagModel>> fetchLogTags() async {
-    var entriesResult = await this._logTagDataProvider.fetchLogTags();
-    print(entriesResult);
-    return entriesResult.map((entry) => LogTagModel.fromJson(entry)).toList();
+    return await this._logTagDataProvider.fetchLogTags();
   }
 
   Future<LogTagModel> deleteLogTag(LogTagModel tag) async {
@@ -18,14 +16,6 @@ class LogTagRepository {
   }
 
   Future<LogTagModel> saveLogTag(LogTagModel tag) async {
-    if (tag.id == null) {
-      int savedId = await this._logTagDataProvider.saveLogTag(tag.toJson());
-      LogTagModel tagWithId = tag.copyWith(id: savedId);
-      await this._logTagDataProvider.updateLogTag(tagWithId.id!, tagWithId.toJson());
-      return tagWithId;
-    } else {
-      await this._logTagDataProvider.updateLogTag(tag.id!, tag.toJson());
-      return tag;
-    }
+    return tag.copyWith(id: await this._logTagDataProvider.saveLogTag(tag));
   }
 }

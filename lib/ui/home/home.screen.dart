@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:daily_log/data/models/log_entry.model.dart';
@@ -5,6 +6,7 @@ import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
 import 'package:daily_log/logic/log_entries_by_date/log_entries_by_date_cubit.dart';
 import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/ui/common/our_app_bar.dart';
+import 'package:daily_log/ui/home/widgets/calendar.dart';
 import 'package:daily_log/ui/home/widgets/log_entry_form.dart';
 import 'package:daily_log/ui/home/widgets/log_entry_list.dart';
 import 'package:daily_log/ui/settings/settings.screen.dart';
@@ -69,16 +71,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Material(
-                    //   color: Colors.black,
-                    //   elevation: 2,
-                    //   child: Calendar(
-                    //     Platform.localeName,
-                    //     onDaySelected: (day) => BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(day),
-                    //     focusedDay: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
-                    //     logEntries: entriesState.logEntries,
-                    //   ),
-                    // ),
+                    Material(
+                      color: Colors.black,
+                      elevation: 2,
+                      child: Calendar(
+                        Platform.localeName,
+                        onDaySelected: (selectedDay, focusedDay) =>
+                            BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(focusedDay),
+                        focusedDay: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+                        logEntries: entriesState.logEntries,
+                      ),
+                    ),
                     Expanded(
                       flex: 2,
                       child: LogEntryList(

@@ -1,6 +1,11 @@
+import 'package:daily_log/data/models/log_tag.model.dart';
+
 abstract class LogTagBaseDataProvider {
-  Future<List<dynamic>> fetchLogTags();
-  Future<int> saveLogTag(Map<String, dynamic> json);
-  Future<void> updateLogTag(int id, Map<String, dynamic> json);
-  Future<void> deleteLogTag(int id);
+  Future<List<LogTagModel>> fetchLogTags();
+
+  Future<LogTagModel?> fetchLogTagById(int id);
+
+  Future<int> saveLogTag(LogTagModel tag);
+
+  Future<int> deleteLogTag(int id);
 }

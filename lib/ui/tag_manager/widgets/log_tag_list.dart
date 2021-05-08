@@ -6,8 +6,8 @@ import 'log_tag_item.dart';
 class LogTagList extends StatelessWidget {
   const LogTagList({
     Key? key,
-    /*required*/ required this.tags,
-    /*required*/ required this.onTapItem,
+    required this.tags,
+    required this.onTapItem,
     this.bottomPadding = true,
     this.shrinkWrap = true,
     this.onDeleteItem,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class LogTag extends StatelessWidget {
   final LogTagModel tag;
 
-  const LogTag({Key? key, /*required*/ required this.tag}) : super(key: key);
+  const LogTag({Key? key, required this.tag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
