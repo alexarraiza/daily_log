@@ -1,12 +1,9 @@
 import 'dart:io';
 
-import 'package:daily_log/data/models/log_entry.model.dart';
 import 'package:daily_log/logic/log_entries/log_entries_cubit.dart';
 import 'package:daily_log/logic/log_entries_by_date/log_entries_by_date_cubit.dart';
-import 'package:daily_log/logic/log_entry/log_entry_cubit.dart';
 import 'package:daily_log/ui/common/our_app_bar.dart';
 import 'package:daily_log/ui/home/widgets/calendar.dart';
-import 'package:daily_log/ui/home/widgets/log_entry_form.dart';
 import 'package:daily_log/ui/home/widgets/log_entry_list.dart';
 import 'package:daily_log/ui/settings/settings.screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,12 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
           leading: _buildTodayButton(),
         ),
         body: _buildBody(),
-        floatingActionButton: FloatingActionButton.extended(
-          label: Text(AppLocalizations.of(context)!.home_screen_new_entry),
-          icon: Icon(Icons.add),
-          onPressed: () => _addOrEditEntry(null),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
@@ -70,23 +61,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Material(
-                      color: Colors.black,
-                      elevation: 2,
-                      child: Calendar(
-                        Platform.localeName,
-                        onDaySelected: (selectedDay, focusedDay) =>
-                            BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(focusedDay),
-                        focusedDay: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
-                        logEntries: entriesState.logEntries,
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
+                      child: Material(
+                        color: Colors.black,
+                        elevation: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Calendar(
+                            Platform.localeName,
+                            onDaySelected: (selectedDay, focusedDay) =>
+                                BlocProvider.of<LogEntriesByDateCubit>(context).getEntriesByDate(focusedDay),
+                            focusedDay: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
+                            logEntries: entriesState.logEntries,
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
                       child: LogEntryList(
                         filteredEntriesState.entries,
-                        onTapItem: _addOrEditEntry,
-                        onDeleteItem: (entry) => BlocProvider.of<LogEntriesCubit>(context).deleteEntry(entry),
                         shrinkWrap: false,
                       ),
                     ),
@@ -100,41 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
-  }
-
-  void _addOrEditEntry(LogEntryModel? entry) {
-    openLogEntryBottomsheet(
-      context,
-      selectedDate: BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
-      logEntry: entry,
-      whenComplete: () {
-        BlocProvider.of<LogEntryCubit>(context).resetState();
-        BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
-      },
-    );
-
-    // showDialog(
-    //   context: context,
-    //   builder: (context) => Stack(
-    //     children: [
-    //       Positioned.fill(
-    //         child: BackdropFilter(
-    //           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-    //           child: Container(
-    //             color: Colors.transparent,
-    //           ),
-    //         ),
-    //       ),
-    //       LogEntryForm(
-    //         BlocProvider.of<LogEntriesByDateCubit>(context).getDateSelected(),
-    //         logEntry: entry,
-    //       ),
-    //     ],
-    //   ),
-    // ).then((_) {
-    //   BlocProvider.of<LogEntryCubit>(context).resetState();
-    //   BlocProvider.of<LogEntriesCubit>(context).fetchLogEntries();
-    // });
   }
 
   Widget _buildTodayButton() {
